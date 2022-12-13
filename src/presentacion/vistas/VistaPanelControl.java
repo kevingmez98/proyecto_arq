@@ -19,7 +19,6 @@ import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.text.DefaultCaret;
 import presentacion.Modelo;
-import proyecto_arq.VistaWidgetRAM;
 
 /**
  *
@@ -30,6 +29,8 @@ public class VistaPanelControl extends JPanel{
       private Modelo modelo;
       
       private VistaWidgetRAM vistaRAM;
+      
+      private VistaWidgetSAP vistaSAP;
       
       private JButton btnReset;
       
@@ -53,10 +54,15 @@ public class VistaPanelControl extends JPanel{
         //reajusta el tamaño de los componentes
         gridConstraints.fill=GridBagConstraints.VERTICAL;
         
-        
         //Agregar widget SAP
-        
+        this.vistaRAM= new VistaWidgetRAM(m, this);
         //Agregar widget RAM
+        this.vistaSAP= new VistaWidgetSAP(m, vistaRAM);
+        gridConstraints.gridx = 1;
+        gridConstraints.gridy = 0;
+        gridConstraints.gridheight = 8;
+        this.add(vistaSAP, gridConstraints);
+        
         
         //Agregar vista estado reloj
         
@@ -75,14 +81,14 @@ public class VistaPanelControl extends JPanel{
         btnReset.setActionCommand("resetButtonClicked");
         //btnReset.addActionListener(getControl());
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridConstraints.gridx = 3;
+        gridConstraints.gridx = 0;
         gridConstraints.gridy = 1;
         gridConstraints.gridheight = 1;
         this.add(btnReset, gridConstraints);
       }
       
       public void agregarBotonEjecutar(){
-        gridConstraints.gridx = 3;
+        gridConstraints.gridx = 0;
         gridConstraints.gridy = 3;
         gridConstraints.gridheight = 1;
         this.btnEjecutar = new JButton("Ejecutar");
@@ -92,7 +98,7 @@ public class VistaPanelControl extends JPanel{
       }
       
       public void agregarBotonPaso(){
-        gridConstraints.gridx = 3;
+        gridConstraints.gridx = 0;
         gridConstraints.gridy = 2;
         gridConstraints.gridheight = 1;
         this.btnPaso = new JButton("Ejecutar 1 Paso");
@@ -108,7 +114,7 @@ public class VistaPanelControl extends JPanel{
       public void agregarSliderVelocidad(){
       
         //Label respectivo
-        gridConstraints.gridx = 3;
+        gridConstraints.gridx = 0;
         gridConstraints.gridy = 4;
         gridConstraints.ipady += 5;
         JLabel t = new JLabel("  Velocidad  ");
@@ -120,7 +126,7 @@ public class VistaPanelControl extends JPanel{
         
         //Slider
         // Agregar slider velocidad
-        gridConstraints.gridx = 3;
+        gridConstraints.gridx = 0;
         gridConstraints.gridy = 5;
         this.sliderVel = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         sliderVel.setMajorTickSpacing(10);
@@ -145,7 +151,7 @@ public class VistaPanelControl extends JPanel{
         txLogArea = new JTextArea(1, 1);
         txLogArea.setMaximumSize(new Dimension(20, 20));
         txLogArea.setEditable(false);
-        gridConstraints.gridx = 3;
+        gridConstraints.gridx = 0;
         gridConstraints.gridy = 6;
         gridConstraints.ipadx = 240;
         gridConstraints.ipady = 150;

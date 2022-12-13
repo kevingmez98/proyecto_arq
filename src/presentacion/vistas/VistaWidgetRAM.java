@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package proyecto_arq;
+package presentacion.vistas;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -79,6 +79,7 @@ public class VistaWidgetRAM extends JPanel{
             for (int j = 0; j < 8; j++) {
                 //Busca en la RAM cada una de 
                 //this.btnArrayBotones[i][j] = new JButton("" + getControl().buscarEnRAM(i, 7 - j));
+                this.btnArrayBotones[i][j]= new JButton("btn_"+i);
                 this.btnArrayBotones[i][j].setPreferredSize(buttonSize);
                 this.btnArrayBotones[i][j].setActionCommand(i + "," + j);
                 //this.btnArrayBotones[i][j].addActionListener(getControl());
