@@ -5,6 +5,7 @@
 package presentacion.vistas;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,8 +14,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
+import javax.swing.text.DefaultCaret;
 import presentacion.Modelo;
+import proyecto_arq.VistaWidgetRAM;
 
 /**
  *
@@ -24,6 +29,8 @@ public class VistaPanelControl extends JPanel{
     
       private Modelo modelo;
       
+      private VistaWidgetRAM vistaRAM;
+      
       private JButton btnReset;
       
       private JButton btnPaso;
@@ -32,6 +39,7 @@ public class VistaPanelControl extends JPanel{
       
       private JSlider sliderVel;
       
+      private JTextArea txLogArea;
       //Permite ajustar las posiciones de los elementos
       private GridBagConstraints gridConstraints;
       
@@ -52,9 +60,14 @@ public class VistaPanelControl extends JPanel{
         
         //Agregar vista estado reloj
         
-        //Agrega boton de reset
+        //Agrega botones y sliders de reset
         agregarBotonReinicio();
+        agregarBotonEjecutar();
+        agregarBotonPaso();
         agregarSliderVelocidad();
+        
+        //Espacio para mostrar los registros
+        agregarRegistros();
       }
       
       public void agregarBotonReinicio(){
@@ -66,6 +79,30 @@ public class VistaPanelControl extends JPanel{
         gridConstraints.gridy = 1;
         gridConstraints.gridheight = 1;
         this.add(btnReset, gridConstraints);
+      }
+      
+      public void agregarBotonEjecutar(){
+        gridConstraints.gridx = 3;
+        gridConstraints.gridy = 3;
+        gridConstraints.gridheight = 1;
+        this.btnEjecutar = new JButton("Ejecutar");
+        this.btnEjecutar.setActionCommand("autoplay");
+        //this.btnEjecutar.addActionListener(getControl());
+        this.add(btnEjecutar, gridConstraints);
+      }
+      
+      public void agregarBotonPaso(){
+        gridConstraints.gridx = 3;
+        gridConstraints.gridy = 2;
+        gridConstraints.gridheight = 1;
+        this.btnPaso = new JButton("Ejecutar 1 Paso");
+        //this.btnClock.addActionListener(getControl());
+        this.btnPaso.setActionCommand("clockButton");
+        this.add(btnPaso, gridConstraints);
+      }
+      
+      public void agregarVistaSAP(){
+          this.vistaRAM = new VistaWidgetRAM(modelo, this);
       }
       
       public void agregarSliderVelocidad(){
@@ -103,6 +140,25 @@ public class VistaPanelControl extends JPanel{
         this.add(this.sliderVel, gridConstraints);
       }
       
+      public void agregarRegistros(){
+        gridConstraints.insets = new Insets(0, 6, 5, 0);
+        txLogArea = new JTextArea(1, 1);
+        txLogArea.setMaximumSize(new Dimension(20, 20));
+        txLogArea.setEditable(false);
+        gridConstraints.gridx = 3;
+        gridConstraints.gridy = 6;
+        gridConstraints.ipadx = 240;
+        gridConstraints.ipady = 150;
+        gridConstraints.gridheight = 1;
+        gridConstraints.fill = GridBagConstraints.VERTICAL;
+        DefaultCaret caret = (DefaultCaret) txLogArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        JScrollPane sv = new JScrollPane(txLogArea);
+        sv.setAutoscrolls(true);
+        sv.setPreferredSize(new Dimension(20, 100));
+        sv.setMaximumSize(new Dimension(20, 100));
+        this.add(sv, gridConstraints);
+      }
       
       //Asigna un controlador del panelCPU
       public void getControl(){
