@@ -54,14 +54,17 @@ public class VistaPanelControl extends JPanel{
         //reajusta el tamaño de los componentes
         gridConstraints.fill=GridBagConstraints.VERTICAL;
         
-        //Agregar widget SAP
-        this.vistaRAM= new VistaWidgetRAM(m, this);
-        //Agregar widget RAM
-        this.vistaSAP= new VistaWidgetSAP(m, vistaRAM);
-        gridConstraints.gridx = 1;
+        //Agregar widget SAP y RAM
+        agregarVistaSAP();     
+        gridConstraints.gridx = 2;
         gridConstraints.gridy = 0;
         gridConstraints.gridheight = 8;
         this.add(vistaSAP, gridConstraints);
+        
+        // Add the RAM View Widget
+        gridConstraints.gridx = 3;
+        gridConstraints.gridy = 0;
+        this.add(vistaRAM, gridConstraints);
         
         
         //Agregar vista estado reloj
@@ -109,12 +112,13 @@ public class VistaPanelControl extends JPanel{
       
       public void agregarVistaSAP(){
           this.vistaRAM = new VistaWidgetRAM(modelo, this);
+          this.vistaSAP= new VistaWidgetSAP(modelo, this.vistaRAM);
       }
       
       public void agregarSliderVelocidad(){
       
         //Label respectivo
-        gridConstraints.gridx = 0;
+        gridConstraints.gridx = 3;
         gridConstraints.gridy = 4;
         gridConstraints.ipady += 5;
         JLabel t = new JLabel("  Velocidad  ");

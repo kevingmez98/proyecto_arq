@@ -73,13 +73,34 @@ public class VistaWidgetRAM extends JPanel{
         // Agregar manejador del observador 
         //this.sistema.getRAM().addRAMObserver(getControl());
 
-        // Crea el array de botones que representan cada bit en cada posición de memory
+        crearBotones();
+
+        // Tamaño ocupado
+        this.setPreferredSize(WIDGET_SIZE);
+        this.setBackground(new Color(223, 220, 206));
+
+        // Layout
+        this.setLayout(new GridBagLayout());
+        gridConstraint = new GridBagConstraints();
+        gridConstraint.fill = GridBagConstraints.HORIZONTAL;
+
+        mostrarBtnOP();
+        mostrarBtnResaltarMAR();
+        mostrarContenidoRAM();
+        //getControl().cambioMAR(this.valorMAR);
+
+        repaint();
+    }
+     
+    // Crea el array de botones que representan cada bit en cada posición de memory
+     public void crearBotones(){
+       
         btnArrayBotones = new JButton[16][8]; // 16 posiciones de 8 bit cada una
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 8; j++) {
                 //Busca en la RAM cada una de 
                 //this.btnArrayBotones[i][j] = new JButton("" + getControl().buscarEnRAM(i, 7 - j));
-                this.btnArrayBotones[i][j]= new JButton("btn_"+i);
+                this.btnArrayBotones[i][j]= new JButton("0");
                 this.btnArrayBotones[i][j].setPreferredSize(buttonSize);
                 this.btnArrayBotones[i][j].setActionCommand(i + "," + j);
                 //this.btnArrayBotones[i][j].addActionListener(getControl());
@@ -89,43 +110,45 @@ public class VistaWidgetRAM extends JPanel{
             }
         }
 
-        // size
-        this.setPreferredSize(WIDGET_SIZE);
-        this.setBackground(new Color(223, 220, 206));
-
-        // Layout
-        this.setLayout(new GridBagLayout());
-        gridConstraint = new GridBagConstraints();
-        gridConstraint.fill = GridBagConstraints.HORIZONTAL;
-
-        // Botón borrar RAM 
-        gridConstraint.gridx = 1;
+     }
+     
+     //boton de borrar RAM
+     public void agregarBtnRAM(){
+         // Botón borrar RAM 
+        gridConstraint.gridx = 0;
         gridConstraint.gridy = 0;
         gridConstraint.gridwidth = 9;
         this.btnLimpiarMemoria = new JButton("Borrar memoria");
         this.btnLimpiarMemoria.setActionCommand("clearmem");
         //this.btnLimpiarMemoria.addActionListener(getControl());
         this.add(this.btnLimpiarMemoria, gridConstraint);
-
+     }
+     
+     public void mostrarBtnOP(){
+         
         // Botón OPCodes 
-        gridConstraint.gridx = 1;
+        gridConstraint.gridx = 0;
         gridConstraint.gridy = 1;
         gridConstraint.gridwidth = 9;
         this.btnMostrarOpcodes = new JButton("Mostrar Códigos de Operación");
         this.btnMostrarOpcodes.setActionCommand("showopcodes");
        // this.btnMostrarOpcodes.addActionListener(getControl());
         this.add(this.btnMostrarOpcodes, gridConstraint);
-
-        // Botón resaltar posición de memoria respecto al MAR 
-        gridConstraint.gridx = 1;
+     }
+     
+      // Botón resaltar posición de memoria respecto al MAR 
+     public void mostrarBtnResaltarMAR(){
+        gridConstraint.gridx = 0;
         gridConstraint.gridy = 5;
         gridConstraint.gridwidth = 9;
         this.btnResaltarMAR = new JButton(this.resaltarMAR ? MAR_ON_LABEL : MAR_OFF_LABEL);
         this.btnResaltarMAR.setActionCommand("toggleMAR");
        // this.btnResaltarMAR.addActionListener(getControl());
         this.add(this.btnResaltarMAR, gridConstraint);
-
-        // Contenido RAM 
+     }
+     
+     public void mostrarContenidoRAM(){
+         // Contenido RAM 
         gridConstraint.gridx = 1;
         gridConstraint.gridheight = 1;
         gridConstraint.gridwidth = 9;
@@ -134,9 +157,11 @@ public class VistaWidgetRAM extends JPanel{
         tmp.setHorizontalAlignment(SwingConstants.CENTER);
         tmp.setBorder(FULL_BORDER);
         this.add(tmp, gridConstraint);
+        
+        //
 
         // El contenido de la memoria
-        gridConstraint.gridx = 4;
+        gridConstraint.gridx = 3;
         gridConstraint.gridwidth = 1;
         gridConstraint.fill = GridBagConstraints.BOTH;
         for (int i = 1; i <= 16; i++) {
@@ -170,8 +195,7 @@ public class VistaWidgetRAM extends JPanel{
                         .setBorder(BOTTOM_BORDER);
             }
         }
-        //getControl().cambioMAR(this.valorMAR);
-        repaint();
-    }
+         
+     }
     
 }
