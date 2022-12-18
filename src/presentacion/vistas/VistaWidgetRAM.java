@@ -12,8 +12,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 import presentacion.Modelo;
 import presentacion.vistas.VistaPanelControl;
 
@@ -36,7 +38,7 @@ public class VistaWidgetRAM extends JPanel{
     private JButton btnResaltarMAR;
     
     private JPanel panelPadre;
-    
+      
     private Modelo modelo;
     
     private Byte valorMAR;
@@ -45,7 +47,7 @@ public class VistaWidgetRAM extends JPanel{
             
     //Constantes de diseño
     private static final Dimension buttonSize = new Dimension(22, 22);
-    private static final Dimension WIDGET_SIZE = new Dimension(220, 550);
+    private static final Dimension WIDGET_SIZE = new Dimension(280, 700);
     public static final Color COLOR_ON = new Color(246, 203, 225);
     public static final Color COLOR_OFF = new Color(246, 213, 203);
     public static final Color COLOR_MAR = Color.gray;
@@ -95,8 +97,8 @@ public class VistaWidgetRAM extends JPanel{
     // Crea el array de botones que representan cada bit en cada posición de memory
      public void crearBotones(){
        
-        btnArrayBotones = new JButton[16][8]; // 16 posiciones de 8 bit cada una
-        for (int i = 0; i < 16; i++) {
+        btnArrayBotones = new JButton[32][8]; // 32 posiciones de 8 bit cada una
+        for (int i = 0; i < 32; i++) {
             for (int j = 0; j < 8; j++) {
                 //Busca en la RAM cada una de 
                 //this.btnArrayBotones[i][j] = new JButton("" + getControl().buscarEnRAM(i, 7 - j));
@@ -149,9 +151,9 @@ public class VistaWidgetRAM extends JPanel{
      
      public void mostrarContenidoRAM(){
          // Contenido RAM 
-        gridConstraint.gridx = 1;
+        gridConstraint.gridx = 0;
         gridConstraint.gridheight = 1;
-        gridConstraint.gridwidth = 9;
+        gridConstraint.gridwidth = 10;
         gridConstraint.gridy = 6;
         JLabel tmp = new JLabel("Contenido de Memoria");
         tmp.setHorizontalAlignment(SwingConstants.CENTER);
@@ -164,11 +166,10 @@ public class VistaWidgetRAM extends JPanel{
         gridConstraint.gridx = 3;
         gridConstraint.gridwidth = 1;
         gridConstraint.fill = GridBagConstraints.BOTH;
-        for (int i = 1; i <= 16; i++) {
+        for (int i = 1; i <= 32; i++) {
             gridConstraint.gridx = 1;
             gridConstraint.gridy = i + 5 + 1;
-
-            String n = String.format("%4s", Integer.toBinaryString(i - 1)).replace(" ", "0");
+            String n = String.format("%5s", Integer.toBinaryString(i - 1)).replace(" ", "0");
             JLabel tmp1 = new JLabel(" [" + n + "] ");
             tmp1.setBorder(FULL_BORDER);
             this.add(tmp1, gridConstraint);

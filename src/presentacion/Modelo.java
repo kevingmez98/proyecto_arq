@@ -36,7 +36,7 @@ public class Modelo {
             ventanaPrincipal.setTitle("Simulador");
             ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             ventanaPrincipal.setContentPane(getPanelPrincipal());
-            ventanaPrincipal.setPreferredSize(new Dimension(1200, 768));
+            ventanaPrincipal.setPreferredSize(new Dimension(1200, 750));
             ventanaPrincipal.setResizable(true);
         }
         return ventanaPrincipal;

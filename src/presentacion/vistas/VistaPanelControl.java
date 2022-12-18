@@ -31,6 +31,8 @@ public class VistaPanelControl extends JPanel{
       private VistaWidgetRAM vistaRAM;
       
       private VistaWidgetSAP vistaSAP;
+
+      private VistaDisplaySieteSeg display7Seg;
       
       private JButton btnReset;
       
@@ -56,15 +58,16 @@ public class VistaPanelControl extends JPanel{
         
         //Agregar widget SAP y RAM
         agregarVistaSAP();     
-        gridConstraints.gridx = 2;
-        gridConstraints.gridy = 0;
-        gridConstraints.gridheight = 8;
-        this.add(vistaSAP, gridConstraints);
-        
-        // Add the RAM View Widget
         gridConstraints.gridx = 3;
         gridConstraints.gridy = 0;
+        gridConstraints.gridheight = 9;
+        this.add(vistaSAP, gridConstraints);
+        
+        // Add the RAM, View Widget and display7seg
+        gridConstraints.gridx = 4;
+        gridConstraints.gridy = 0;
         this.add(vistaRAM, gridConstraints);
+
         
         
         //Agregar vista estado reloj
@@ -74,6 +77,9 @@ public class VistaPanelControl extends JPanel{
         agregarBotonEjecutar();
         agregarBotonPaso();
         agregarSliderVelocidad();
+        
+        asignarSieteSeg();
+        
         
         //Espacio para mostrar los registros
         agregarRegistros();
@@ -85,14 +91,14 @@ public class VistaPanelControl extends JPanel{
         //btnReset.addActionListener(getControl());
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.gridx = 0;
-        gridConstraints.gridy = 1;
+        gridConstraints.gridy = 2;
         gridConstraints.gridheight = 1;
         this.add(btnReset, gridConstraints);
       }
       
       public void agregarBotonEjecutar(){
         gridConstraints.gridx = 0;
-        gridConstraints.gridy = 3;
+        gridConstraints.gridy = 4;
         gridConstraints.gridheight = 1;
         this.btnEjecutar = new JButton("Ejecutar");
         this.btnEjecutar.setActionCommand("autoplay");
@@ -102,7 +108,7 @@ public class VistaPanelControl extends JPanel{
       
       public void agregarBotonPaso(){
         gridConstraints.gridx = 0;
-        gridConstraints.gridy = 2;
+        gridConstraints.gridy = 3;
         gridConstraints.gridheight = 1;
         this.btnPaso = new JButton("Ejecutar 1 Paso");
         //this.btnClock.addActionListener(getControl());
@@ -118,8 +124,8 @@ public class VistaPanelControl extends JPanel{
       public void agregarSliderVelocidad(){
       
         //Label respectivo
-        gridConstraints.gridx = 3;
-        gridConstraints.gridy = 4;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 5;
         gridConstraints.ipady += 5;
         JLabel t = new JLabel("  Velocidad  ");
         t.setHorizontalAlignment(JLabel.CENTER);
@@ -131,7 +137,7 @@ public class VistaPanelControl extends JPanel{
         //Slider
         // Agregar slider velocidad
         gridConstraints.gridx = 0;
-        gridConstraints.gridy = 5;
+        gridConstraints.gridy = 6;
         this.sliderVel = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         sliderVel.setMajorTickSpacing(10);
         sliderVel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -151,14 +157,14 @@ public class VistaPanelControl extends JPanel{
       }
       
       public void agregarRegistros(){
-        gridConstraints.insets = new Insets(0, 6, 5, 0);
+        gridConstraints.insets = new Insets(0, 10, 5, 0);
         txLogArea = new JTextArea(1, 1);
-        txLogArea.setMaximumSize(new Dimension(20, 20));
+        txLogArea.setMaximumSize(new Dimension(30, 20));
         txLogArea.setEditable(false);
         gridConstraints.gridx = 0;
-        gridConstraints.gridy = 6;
+        gridConstraints.gridy = 7;
         gridConstraints.ipadx = 240;
-        gridConstraints.ipady = 150;
+        gridConstraints.ipady = 200;
         gridConstraints.gridheight = 1;
         gridConstraints.fill = GridBagConstraints.VERTICAL;
         DefaultCaret caret = (DefaultCaret) txLogArea.getCaret();
@@ -170,6 +176,15 @@ public class VistaPanelControl extends JPanel{
         this.add(sv, gridConstraints);
       }
       
+      public void asignarSieteSeg(){
+        //Agregar vista siete segmentos tomando el valor del registro del sistema
+        //this.display7Seg = new VistaDisplaySieteSeg(this.sistema.getRegistroSalida().getValor());
+        this.display7Seg = new VistaDisplaySieteSeg((byte)1001);
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 8;
+        this.add(this.display7Seg, gridConstraints);
+
+      }
       //Asigna un controlador del panelCPU
       public void getControl(){
           
