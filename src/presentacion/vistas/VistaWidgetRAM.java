@@ -47,7 +47,7 @@ public class VistaWidgetRAM extends JPanel{
             
     //Constantes de diseño
     private static final Dimension buttonSize = new Dimension(22, 22);
-    private static final Dimension WIDGET_SIZE = new Dimension(280, 700);
+    private static final Dimension WIDGET_SIZE = new Dimension(400, 700);
     public static final Color COLOR_ON = new Color(246, 203, 225);
     public static final Color COLOR_OFF = new Color(246, 213, 203);
     public static final Color COLOR_MAR = Color.gray;
@@ -97,9 +97,9 @@ public class VistaWidgetRAM extends JPanel{
     // Crea el array de botones que representan cada bit en cada posición de memory
      public void crearBotones(){
        
-        btnArrayBotones = new JButton[32][8]; // 32 posiciones de 8 bit cada una
+        btnArrayBotones = new JButton[32][32]; // 32 posiciones de 32 bit cada una
         for (int i = 0; i < 32; i++) {
-            for (int j = 0; j < 8; j++) {
+            for (int j = 0; j < 32; j++) {
                 //Busca en la RAM cada una de 
                 //this.btnArrayBotones[i][j] = new JButton("" + getControl().buscarEnRAM(i, 7 - j));
                 this.btnArrayBotones[i][j]= new JButton("0");
@@ -119,7 +119,7 @@ public class VistaWidgetRAM extends JPanel{
          // Botón borrar RAM 
         gridConstraint.gridx = 0;
         gridConstraint.gridy = 0;
-        gridConstraint.gridwidth = 9;
+        gridConstraint.gridwidth = 35;
         this.btnLimpiarMemoria = new JButton("Borrar memoria");
         this.btnLimpiarMemoria.setActionCommand("clearmem");
         //this.btnLimpiarMemoria.addActionListener(getControl());
@@ -131,7 +131,7 @@ public class VistaWidgetRAM extends JPanel{
         // Botón OPCodes 
         gridConstraint.gridx = 0;
         gridConstraint.gridy = 1;
-        gridConstraint.gridwidth = 9;
+        gridConstraint.gridwidth = 35;
         this.btnMostrarOpcodes = new JButton("Mostrar Códigos de Operación");
         this.btnMostrarOpcodes.setActionCommand("showopcodes");
        // this.btnMostrarOpcodes.addActionListener(getControl());
@@ -142,7 +142,7 @@ public class VistaWidgetRAM extends JPanel{
      public void mostrarBtnResaltarMAR(){
         gridConstraint.gridx = 0;
         gridConstraint.gridy = 5;
-        gridConstraint.gridwidth = 9;
+        gridConstraint.gridwidth = 35;
         this.btnResaltarMAR = new JButton(this.resaltarMAR ? MAR_ON_LABEL : MAR_OFF_LABEL);
         this.btnResaltarMAR.setActionCommand("toggleMAR");
        // this.btnResaltarMAR.addActionListener(getControl());
@@ -153,9 +153,9 @@ public class VistaWidgetRAM extends JPanel{
          // Contenido RAM 
         gridConstraint.gridx = 0;
         gridConstraint.gridheight = 1;
-        gridConstraint.gridwidth = 10;
+        gridConstraint.gridwidth = 35;
         gridConstraint.gridy = 6;
-        JLabel tmp = new JLabel("Contenido de Memoria");
+        JLabel tmp = new JLabel("Registros");
         tmp.setHorizontalAlignment(SwingConstants.CENTER);
         tmp.setBorder(FULL_BORDER);
         this.add(tmp, gridConstraint);
@@ -174,7 +174,7 @@ public class VistaWidgetRAM extends JPanel{
             tmp1.setBorder(FULL_BORDER);
             this.add(tmp1, gridConstraint);
 
-            for (int j = 2; j < 10; j++) {
+            for (int j = 2; j < 34; j++) {
                 gridConstraint.gridx = j;
                 this.add(btnArrayBotones[gridConstraint.gridy - 1 - 5 - 1][j - 2], gridConstraint);
             }
@@ -188,7 +188,7 @@ public class VistaWidgetRAM extends JPanel{
         // Agregue el borde inferior a la visualización de RAM
         for (int i = 0; i < this.btnArrayBotones[0].length; i++) {
             // La pieza inferior derecha tiene un borde especial
-            if (i == 7) {
+            if (i == 31) {
                 this.btnArrayBotones[this.btnArrayBotones.length - 1][i]
                         .setBorder(BOTTOM_RIGHT_BORDER);
             } else {

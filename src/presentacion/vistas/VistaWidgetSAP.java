@@ -327,7 +327,7 @@ public class VistaWidgetSAP extends JPanel{
         gridConstraint.gridx = 0;
         gridConstraint.gridy = gridy;
         gridConstraint.gridwidth = 12;
-        this.add(new JLabel("=================================================="), gridConstraint);
+        this.add(new JLabel("========================================================================================"), gridConstraint);
         gridConstraint.gridwidth = 1;
     }
     
