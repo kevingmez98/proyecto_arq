@@ -9,16 +9,13 @@ package Logica;
  * @author jason
  */
 public class RegistroMAR extends Registro {
-    private int direccionAct;
+
     private int direccionEfect;
   
-
-    public RegistroMAR(int direccionEfect,Bus asociado) {
-        super(31,asociado);
-        this.direccionEfect = direccionEfect;
-        this.direccionAct = 0;
+    public RegistroMAR(Bus asociado) {
+        super(30,asociado);
+        this.setValor(0);
         //Decidi asignar a la Mar la id del registro 31, sin embargo cambiarla si quieren xd
-       
     }
 
     //Set para fijar la direccion de carga/guardado de las instrucciones lw o sw
@@ -48,20 +45,28 @@ public class RegistroMAR extends Registro {
         //Se unifican todos los bits para obtener la direccion
         int dir_bin = p1 + (int)Math.pow(4,p3)  + this.direccionEfect-1;
 
-        this.direccionAct = dir_bin;
+        this.setValor(dir_bin);
     }
 
     //Set para fijar la direccion actual proporcionada por el program counter
     public void setDireccion(int direccionAct) {
-        this.direccionAct = direccionAct;
+        this.setValor(direccionAct);
+    }
+    
+    public void setDireccionEfect(int direccionEfect){
+        this.direccionEfect = direccionEfect;
+    }
+    
+    public int getDireccionEfect(){
+        return this.direccionEfect;
     }
 
     public int getDireccionAct() {
-        return this.direccionAct;
+        return this.getValor();
     }
     @Override
      public void escribiralbus(){
-        this.Bus_asociado.Escribirenelbus(id, direccionAct);
+        this.Bus_asociado.Escribirenelbus(id, this.getDireccionAct());
         
     }
     @Override

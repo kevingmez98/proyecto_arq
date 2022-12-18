@@ -11,7 +11,7 @@ package Logica;
 public class RegistroInstrucciones extends Registro{
     //Un registro que guarda la instruccion que se esta ejecutando en el momento
     public RegistroInstrucciones(Bus asociado){
-        super(30,asociado);
+        super(29,asociado);
     }
     
 }

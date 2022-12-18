@@ -4,7 +4,7 @@ package Logica;
 public class ContadorPrograma extends Registro {
 
     public void contar() {
-        if (this.valor == 79) {
+        if (this.getValor() == 79) {
             this.valor = 0;
         } else {
             this.valor++;
@@ -12,7 +12,7 @@ public class ContadorPrograma extends Registro {
     }
 
     public ContadorPrograma(Bus a) {
-        super(32,a);
+        super(31,a);
     }
 
 }
