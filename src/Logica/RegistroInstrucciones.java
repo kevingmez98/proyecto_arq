@@ -13,5 +13,4 @@ public class RegistroInstrucciones extends Registro{
     public RegistroInstrucciones(Bus asociado){
         super(29,asociado);
     }
-    
 }

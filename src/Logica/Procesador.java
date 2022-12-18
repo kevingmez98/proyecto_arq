@@ -26,12 +26,33 @@ public class Procesador implements ObservadorReloj{
     public static final int J = 14;
     public static final int FI = 15;
     
+    // Enumera los tipos de instrucciones válidas admitidas en el simulador
+    /* 000000 - NOP
+       000001 - LDW
+       000010 - SW
+       000011 - ADD
+       000100 - ADDI
+       000101 - AND
+       000110 - OR
+       000111 - NOT
+       001000 - LDI
+       001001 - BEQ
+       001010 - BGE
+       001011 - JMP
+       001100 - OUT
+       001101 - INVALID
+    */
+    public enum TipoInstruccion {
+        NOP, LDW, SW, ADD, ADDI, AND, OR, NOT, LDI, BEQ, BGE, JMP, OUT, INVALID
+    }
+    
     Registro[] Banco_de_registros;
     Bus asociado;
     Memoria RAM;
     int Pasos_reloj;
     ALU alu;
     private boolean[] lineascontrol;
+    TipoInstruccion instActual;
     
     public Procesador(){
         inicializarBanco();
@@ -64,14 +85,95 @@ public class Procesador implements ObservadorReloj{
         }
     }
     
-    public void Reconocerinstruccion(byte[] Nostradamus){
+    public void Reconocerinstruccion(){
         //Esta funcion deberia recibir una String o un arreglo de bytes?
+        /*Ninguno, ya que debe recibir 32 bits del registro de instrucciones, por lo que
+          se agrega una función en la memoria, la cual devuelve el entero correspondiente 
+          a los 4 bytes de la instruccion
+        */
+        
+        //Recibe el valor contenido en el registro de instrucciones
+        int instruccion = Banco_de_registros[29].getValor();
+        
+        //NOP, LDW, SW, ADD, ADDI, AND, OR, NOT, LDI, BEQ, BGE, JMP, OUT, INVALID
+                
+        byte opcode = (byte)(instruccion & 0b00111111);
+      
+        
+        switch(opcode){
+            case 0:
+                instActual = TipoInstruccion.NOP;
+                break;
+            
+            case 1: 
+                instActual = TipoInstruccion.LDW;
+                break;
+            
+            case 2:
+                instActual = TipoInstruccion.SW;
+                break;
+            
+            case 3:
+                instActual = TipoInstruccion.ADD;
+                break;
+                
+            case 4:
+                instActual = TipoInstruccion.ADDI;
+                break;
+            
+            case 5:
+                instActual = TipoInstruccion.AND;
+                break;
+            
+            case 6:
+                instActual = TipoInstruccion.OR;
+                break;
+                
+            case 7:
+                instActual = TipoInstruccion.NOT;
+                break;
+            
+            case 8:
+                instActual = TipoInstruccion.LDI;
+                break;
+            
+            case 9:
+                instActual = TipoInstruccion.BEQ;
+                break;
+                
+            case 10: 
+                instActual = TipoInstruccion.BGE;
+                break;
+                
+            case 11:
+                instActual = TipoInstruccion.JMP;
+                break;
+            
+            case 12:
+                instActual = TipoInstruccion.OUT;
+                break;
+                
+            default:
+                instActual = TipoInstruccion.INVALID;
+                break;             
+                
+        }
         
     }
 
     @Override
     public void cambioReloj() {
         this.Pasos_reloj++;
+        
+        switch (Pasos_reloj){
+            case 1:
+                
+            case 2:
+                
+                
+            default:
+                
+        }
     }
     
     public void reset(){
@@ -95,6 +197,8 @@ public class Procesador implements ObservadorReloj{
         //Actualizar la vista.....
         
     }
+    
+    
     
     
     
