@@ -1,16 +1,24 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Logica;
 
-public class RegistroMAR {
-    private int id;
+/**
+ *
+ * @author jason
+ */
+public class RegistroMAR extends Registro {
     private int direccionAct;
     private int direccionEfect;
-    private Bus Bus_asociado;
+  
 
     public RegistroMAR(int direccionEfect,Bus asociado) {
+        super(31,asociado);
         this.direccionEfect = direccionEfect;
         this.direccionAct = 0;
         //Decidi asignar a la Mar la id del registro 31, sin embargo cambiarla si quieren xd
-        this.id=31;
+       
     }
 
     //Set para fijar la direccion de carga/guardado de las instrucciones lw o sw
@@ -51,15 +59,16 @@ public class RegistroMAR {
     public int getDireccionAct() {
         return this.direccionAct;
     }
+    @Override
      public void escribiralbus(){
         this.Bus_asociado.Escribirenelbus(id, direccionAct);
         
     }
+    @Override
     public void leerdelbus(){
         //Actualiza el valor del registro al que esta en el Bus y le avisa que al Bus que lo hace.
         //Seguramente se utilice para que el Program Counter le indique la direccion de la instruccion que debe leer
        this.setDireccion(this.Bus_asociado.leerdelbus(id));
         
     }
-
 }
