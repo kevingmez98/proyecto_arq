@@ -59,7 +59,11 @@ public class Registro {
         for (int i = 0; s2.length() < 32; i++) {
             s2 = "0" + s2;
         }
+<<<<<<< HEAD
         System.out.println(s2);
+=======
+        
+>>>>>>> ce6608afc585f2a73460476aaf0dae485a960ae2
         return s2;
     }
     

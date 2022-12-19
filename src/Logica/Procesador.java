@@ -9,6 +9,7 @@ package Logica;
 public class Procesador implements ObservadorReloj{
     
      // Asignamos valores enteros constantes a cada señal de línea de control
+<<<<<<< HEAD
     public static final int HLT = 0;
     public static final int MI = 1;
     public static final int RI = 2;
@@ -25,6 +26,24 @@ public class Procesador implements ObservadorReloj{
     public static final int CO = 13;
     public static final int J = 14;
     public static final int FI = 15;
+=======
+    public static final int HLT = 0; // no c que es
+    public static final int MI = 1; //La MAR lee
+    public static final int RI = 2; //La RAM lee
+    public static final int RO = 3; //La RAM escribe
+    public static final int IO = 4; //Registro de instrucciones escribe
+    public static final int II = 5;// Registro de instrucciones lee
+    public static final int AI = 6;//ALU lee
+    public static final int AO = 7;//ALU Escribe
+    public static final int SO = 8;//no c
+    public static final int SU = 9;// no c
+    public static final int BI = 10;//no c
+    public static final int OI = 11;//No c
+    public static final int CE = 12;//No c
+    public static final int CO = 13;//No c
+    public static final int J = 14;// una J
+    public static final int FI = 15;// No c
+>>>>>>> ce6608afc585f2a73460476aaf0dae485a960ae2
     
     // Enumera los tipos de instrucciones válidas admitidas en el simulador
     /* 000000 - NOP
@@ -53,6 +72,7 @@ public class Procesador implements ObservadorReloj{
     ALU alu;
     private boolean[] lineascontrol;
     TipoInstruccion instActual;
+<<<<<<< HEAD
     
     public Procesador(){
         inicializarBanco();
@@ -63,6 +83,52 @@ public class Procesador implements ObservadorReloj{
         this.alu = new ALU();
         this.lineascontrol = new boolean[16];
        
+=======
+    //Indica si el fetch de la instruccion actual ya se ejecuto
+    boolean fetched;
+    
+    public Procesador(){
+        this.asociado=new Bus(); 
+        inicializarBanco();
+        this.RAM=new Memoria((RegistroMAR)Banco_de_registros[30],asociado);
+        Reloj.obtenerReloj().addObserver(this);
+        this.Pasos_reloj=0;
+        this.alu = new ALU(asociado);
+        this.lineascontrol = new boolean[16];
+       this.fetched=false;
+    }
+    public void fetch(){
+       if(this.fetched==false){
+        switch(this.Pasos_reloj){
+            case 1:
+                //El program counter pasa al direccion de memoria que tiene al bus
+        this.Banco_de_registros[31].escribiralbus();
+        //El MAR lee la direccion de memoria del bus
+        this.Banco_de_registros[30].leerdelbus();
+        
+        break;
+            case 2:
+                //Se vacian los lectores y el escritor del paso anterior
+                this.asociado.limpiarlectoresyescritor();
+        this.asociado.CleanBus();
+        //La RAM escribe al bus los datos de la direccion actual de la mar
+        this.RAM.escribiralbus(this.RAM.getInstr());
+        //El registro de instrucciones lee la isntruccion del bus
+        this.Banco_de_registros[29].leerdelbus();
+        //Se Analizan las isntrucciones
+        Reconocerinstruccion();
+        //Se marca el fetch como realizado para que no haga conflicto a la hora de ejecutar las instrucciones paso a paso
+        this.fetched=true;
+        //Se marcan los pasos de la instruccion devuelta a 0
+        this.Pasos_reloj=0;
+        break;
+        }
+       }else{
+           //Ejecutar la instruccion
+       }
+        
+        
+>>>>>>> ce6608afc585f2a73460476aaf0dae485a960ae2
     }
     
     
@@ -102,6 +168,10 @@ public class Procesador implements ObservadorReloj{
         
         switch(opcode){
             case 0:
+<<<<<<< HEAD
+=======
+                System.out.println("La instruccion actual es NOP");
+>>>>>>> ce6608afc585f2a73460476aaf0dae485a960ae2
                 instActual = TipoInstruccion.NOP;
                 break;
             
@@ -164,11 +234,16 @@ public class Procesador implements ObservadorReloj{
     @Override
     public void cambioReloj() {
         this.Pasos_reloj++;
+<<<<<<< HEAD
         
         switch (Pasos_reloj){
             
             //Activación de lineas de control para el fetch de instrucciones
             //Activaión comun para todas las instrucciones
+=======
+        fetch();
+        switch (Pasos_reloj){
+>>>>>>> ce6608afc585f2a73460476aaf0dae485a960ae2
             case 1:
                 
             case 2:
