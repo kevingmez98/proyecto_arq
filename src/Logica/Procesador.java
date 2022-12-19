@@ -166,6 +166,9 @@ public class Procesador implements ObservadorReloj{
         this.Pasos_reloj++;
         
         switch (Pasos_reloj){
+            
+            //Activación de lineas de control para el fetch de instrucciones
+            //Activaión comun para todas las instrucciones
             case 1:
                 
             case 2:
