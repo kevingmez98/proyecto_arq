@@ -4,18 +4,12 @@ public class ALU {
 
     private Flags banderas;
     private Registro registroA, registroB;
-<<<<<<< HEAD
-
-    public ALU() {
-        this.banderas = new Flags();
-=======
     private int id;
     private Bus bus_asociado;
     public ALU(Bus asociado) {
         this.banderas = new Flags();
         this.id=43;
         this.bus_asociado=asociado;
->>>>>>> ce6608afc585f2a73460476aaf0dae485a960ae2
     }
 
     //Fija los registros operandos para efectuar las operaciones de la ALU
@@ -99,16 +93,12 @@ public class ALU {
         
         return salida;
     }
-<<<<<<< HEAD
-    
-=======
     public void escribirenelbus(int dato){
         this.bus_asociado.Escribirenelbus(this.id, dato);
     }
     public void leerdelbus(){
         this.bus_asociado.leerdelbus(this.id);
     }
->>>>>>> ce6608afc585f2a73460476aaf0dae485a960ae2
     // funciones Getter 
     public boolean getZeroFlag() {
         return banderas.getZF();
