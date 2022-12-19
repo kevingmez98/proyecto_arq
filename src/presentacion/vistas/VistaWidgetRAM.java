@@ -90,7 +90,8 @@ public class VistaWidgetRAM extends JPanel{
         mostrarBtnResaltarMAR();
         mostrarContenidoRAM();
         //getControl().cambioMAR(this.valorMAR);
-
+        
+        agregarEtiquetasRegistros();
         repaint();
     }
      
@@ -119,7 +120,7 @@ public class VistaWidgetRAM extends JPanel{
          // Botón borrar RAM 
         gridConstraint.gridx = 0;
         gridConstraint.gridy = 0;
-        gridConstraint.gridwidth = 35;
+        gridConstraint.gridwidth = 37;
         this.btnLimpiarMemoria = new JButton("Borrar memoria");
         this.btnLimpiarMemoria.setActionCommand("clearmem");
         //this.btnLimpiarMemoria.addActionListener(getControl());
@@ -131,7 +132,7 @@ public class VistaWidgetRAM extends JPanel{
         // Botón OPCodes 
         gridConstraint.gridx = 0;
         gridConstraint.gridy = 1;
-        gridConstraint.gridwidth = 35;
+        gridConstraint.gridwidth = 37;
         this.btnMostrarOpcodes = new JButton("Mostrar Códigos de Operación");
         this.btnMostrarOpcodes.setActionCommand("showopcodes");
        // this.btnMostrarOpcodes.addActionListener(getControl());
@@ -142,32 +143,78 @@ public class VistaWidgetRAM extends JPanel{
      public void mostrarBtnResaltarMAR(){
         gridConstraint.gridx = 0;
         gridConstraint.gridy = 5;
-        gridConstraint.gridwidth = 35;
+        gridConstraint.gridwidth = 37;
         this.btnResaltarMAR = new JButton(this.resaltarMAR ? MAR_ON_LABEL : MAR_OFF_LABEL);
         this.btnResaltarMAR.setActionCommand("toggleMAR");
        // this.btnResaltarMAR.addActionListener(getControl());
         this.add(this.btnResaltarMAR, gridConstraint);
      }
      
-     public void mostrarContenidoRAM(){
-         // Contenido RAM 
-        gridConstraint.gridx = 0;
+     public void agregarEtiquetasRegistros(){
+        gridConstraint.gridx = 1;
+        gridConstraint.gridwidth = 1;
+        for (int i = 1; i <= 32; i++) {
+            //Agregar etiquetas a los registros
+            String label=" a"+i+" ";
+            switch(i){
+                case 1:label=" zero ";
+                break;
+                case 30:label=" IR ";
+                break;
+                case 31:label=" MAR ";
+                break;
+                case 32:label=" PC ";
+                break;
+            }
+            
+            gridConstraint.gridy = i+5+1;
+            JLabel tmp1 = new JLabel(label);
+            tmp1.setBorder(BOTTOM_RIGHT_BORDER);
+            this.add(tmp1, gridConstraint);
+        }
+     }
+     
+     public void agregarEncabezados(){
+        gridConstraint.gridy = 6;
+      
+        
+        gridConstraint.gridx=0;
+        gridConstraint.gridheight = 1;
+        gridConstraint.gridwidth = 1;
+        gridConstraint.fill = GridBagConstraints.BOTH;
+        JLabel labelOPCode= new JLabel(" Codigo ");
+        labelOPCode.setHorizontalAlignment(SwingConstants.CENTER);
+        labelOPCode.setBorder(FULL_BORDER);
+        this.add(labelOPCode, gridConstraint);
+        
+        gridConstraint.gridx=1;
+        gridConstraint.gridheight = 1;
+        gridConstraint.gridwidth = 1;
+        gridConstraint.fill = GridBagConstraints.BOTH;
+        JLabel labelName= new JLabel(" Nombre ");
+        labelName.setHorizontalAlignment(SwingConstants.CENTER);
+        labelName.setBorder(FULL_BORDER);
+        this.add(labelName, gridConstraint);
+        
+        gridConstraint.gridx=2;
         gridConstraint.gridheight = 1;
         gridConstraint.gridwidth = 35;
-        gridConstraint.gridy = 6;
-        JLabel tmp = new JLabel("Registros");
-        tmp.setHorizontalAlignment(SwingConstants.CENTER);
-        tmp.setBorder(FULL_BORDER);
-        this.add(tmp, gridConstraint);
+        gridConstraint.fill = GridBagConstraints.BOTH;
+        JLabel labelValue= new JLabel(" Valor ");
+        labelValue.setHorizontalAlignment(SwingConstants.CENTER);
+        labelValue.setBorder(FULL_BORDER);
+        this.add(labelValue, gridConstraint);
         
-        //
+     }
+     public void mostrarContenidoRAM(){
+        agregarEncabezados();
 
         // El contenido de la memoria
-        gridConstraint.gridx = 3;
+        gridConstraint.gridx = 4;
         gridConstraint.gridwidth = 1;
         gridConstraint.fill = GridBagConstraints.BOTH;
         for (int i = 1; i <= 32; i++) {
-            gridConstraint.gridx = 1;
+            gridConstraint.gridx = 0;
             gridConstraint.gridy = i + 5 + 1;
             String n = String.format("%5s", Integer.toBinaryString(i - 1)).replace(" ", "0");
             JLabel tmp1 = new JLabel(" [" + n + "] ");
@@ -175,7 +222,7 @@ public class VistaWidgetRAM extends JPanel{
             this.add(tmp1, gridConstraint);
 
             for (int j = 2; j < 34; j++) {
-                gridConstraint.gridx = j;
+                gridConstraint.gridx = j+2;
                 this.add(btnArrayBotones[gridConstraint.gridy - 1 - 5 - 1][j - 2], gridConstraint);
             }
         }
