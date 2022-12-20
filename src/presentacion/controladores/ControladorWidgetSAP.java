@@ -17,7 +17,7 @@ public class ControladorWidgetSAP implements SAPObserver{
     private VistaWidgetSAP widgetSAP;
     private  Modelo modelo;
     //private  SistemaSAP sistema;
-    
+    //Comentario de diferencia para el main
     
       // Si cambia el registro A/B o cambia la bandera SUB, vuelva a pintar
     private void actualizarALU() {
