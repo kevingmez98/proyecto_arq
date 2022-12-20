@@ -22,7 +22,7 @@ public class ControladorWidgetSAP implements SAPObserver{
       // Si cambia el registro A/B o cambia la bandera SUB, vuelva a pintar
     private void actualizarALU() {
         for (int i = 0; i <= 7; i++) {
-          //  widgetSAP.getBtns_bitsALU()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.ALU, 7 - i));
+          //widgetSAP.getBtns_bitsALU()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.ALU, 7 - i));
         }
     }
     @Override
@@ -61,7 +61,6 @@ public class ControladorWidgetSAP implements SAPObserver{
         for (int i = 0; i <= 7; i++) {
             //widgetSAP.getBtns_bitsOUT()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.OUT, 7 - i));
         }
-        widgetSAP.getDisplay7Seg().setValor(v);
     }
 
     @Override

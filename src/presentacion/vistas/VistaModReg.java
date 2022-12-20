@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -44,14 +45,13 @@ public class VistaModReg extends JPanel{
     private ControladorModReg controlador;
        
     public VistaModReg(){
-          this.setLayout(new GridBagLayout());
+        this.setLayout(new GridBagLayout());
         grid = new GridBagConstraints();
         grid.fill = GridBagConstraints.VERTICAL;
         this.setBackground(new Color(223, 220, 206));
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         generarFormInstruccion();
         generarFormComprobacion();
-        
         
          
     }
@@ -62,11 +62,11 @@ public class VistaModReg extends JPanel{
         grid.gridy = 0;
         JLabel lbl= new JLabel("Verificar valor en posicion");
         this.add(lbl,grid);
-        
+            
         grid.gridx=2;
         grid.gridy=1;
         txtPosicion= new JTextField("Posicion");
-        txtPosicion.setMinimumSize(new Dimension(100,20));
+        txtPosicion.setMinimumSize(new Dimension(200,20));
         this.add(txtPosicion,grid);
         
         grid.gridx=2;
@@ -133,6 +133,8 @@ public class VistaModReg extends JPanel{
         }
         return controlador;
     }
+    
+    
     
     
     

@@ -33,7 +33,7 @@ public class ControladorWidgetRAM implements interfaces.IRAMObserver, ActionList
     public void cambiaValorRAM(int address) {
         // Iterar sobre todos los bits en la posición de memoria actual
         for (int i = 0; i <= 31; i++) {
-            //widgetRAM.getBtnArrayBotones()[address][i].setText("" + this.buscarEnRAM(address, 7 - i));
+           //widgetRAM.getBtnArrayBotones()[address][i].setText("" + this.buscarEnRAM(address, 31 - i));
 
             // Compruebar si es el valor MAR, en cuyo caso se necesita un color para resaltar
             if (widgetRAM.isResaltarMAR() && address == widgetRAM.getValorMAR()) {
@@ -95,16 +95,16 @@ public class ControladorWidgetRAM implements interfaces.IRAMObserver, ActionList
             // Obtener el contenido de la memoria
            // byte[] arr = this.sistema.getRAM().getData();
 
-            for (int i = 0; i < 16; i++) {
+            for (int i = 0; i < 32; i++) {
                 // Colocamos cada posición en 0
              //   arr[i] = 0;
             }
 
             // Obligar a la pantalla a volver a pintar dos veces, para manejar el retraso visual
-            for (int i = 0; i < 16; i++) {
+            for (int i = 0; i < 32; i++) {
                 this.cambiaValorRAM(i);
             }
-            for (int i = 0; i < 16; i++) {
+            for (int i = 0; i < 32; i++) {
                 this.cambiaValorRAM(i);
             }
             return;
