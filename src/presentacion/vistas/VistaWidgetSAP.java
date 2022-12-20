@@ -23,9 +23,9 @@ public class VistaWidgetSAP extends JPanel{
     private JLabel lblRegA;
     private JLabel lblRegB;
     private JLabel lblALU;
-    private JLabel lblIR;
-    private JLabel lblOut;
     private JLabel lblPC;
+    private JLabel lblOut;
+    private JLabel lblIR;
     private JLabel lblMAR;
     private JLabel lblControles;
     private JLabel lblStepCount;
@@ -33,23 +33,36 @@ public class VistaWidgetSAP extends JPanel{
     private JLabel lblStepCt;
     private JLabel lblFlags;
 
-    private JLabel[] btns_bitsA;
-    private JLabel[] btns_bitsB;
-    private JLabel[] btns_bitsALU;
     private JLabel[] btns_bitsIR;
     private JLabel[] btns_bitsOUT;
-    private JLabel[] btns_bitsPC;
-    private JLabel[] btns_bitsMAR;
     private JLabel[] btns_bitsControl;
-    private JLabel[] btns_bistBUS;
     
+    private JLabel lblBUSBin;
+    private JLabel lblBUSEn;
+    
+    private JLabel lblOper1Bin;
+    private JLabel lblOper1En;
+    
+    private JLabel lblOper2Bin;
+    private JLabel lblOper2En;
+    
+    private JLabel lblALUBin;
+    private JLabel lblALUEn;
+ 
+    private JLabel lblPCBin;
+    private JLabel lblPCEn;
+    
+     
+    private JLabel lblMARBin;
+    private JLabel lblMAREn;
+    
+    private JLabel lblIRBin;
     
     private final Modelo modelo;  
      
     private JLabel btnCarry;
     private JLabel btnZero;
     private VistaWidgetRAM ramWidget;
-    private VistaDisplaySieteSeg display7Seg; 
 
     //Controlador de la vista
     //private ControladorWindgetSAP control;
@@ -66,11 +79,10 @@ public class VistaWidgetSAP extends JPanel{
     
     //Constructor con la vista de SieteSeg
     //public VistaWidgetSAP(Modelo m, VistaDisplaySieteSeg display, VistaWidgetRAM ramWidget) {
-    public VistaWidgetSAP(Modelo m, VistaWidgetRAM ramWidget, VistaDisplaySieteSeg vista) {
+    public VistaWidgetSAP(Modelo m, VistaWidgetRAM ramWidget) {
         // Encapsula el modelo
         this.modelo = m;        
         //this.sistema = m.getSistema();
-        this.display7Seg = vista;
         this.ramWidget = ramWidget;
         this.setBorder(BorderFactory.createLineBorder(WIDGET_BORDER_COLOR));
 
@@ -132,91 +144,96 @@ public class VistaWidgetSAP extends JPanel{
         //  BUS 
         gridConstraint.gridy = 0;
         gridConstraint.gridx = 1;
-        btns_bistBUS = new JLabel[8];
-        for (int i = 0; i <= 7; i++) {
-            gridConstraint.gridx = i + 1;
-            JLabel b = crearLabel("0"); 
-            this.add(b, gridConstraint);
-            btns_bistBUS[i] = b;
-        }
-
-        //  A 
+        lblBUSBin = new JLabel("011010101010010101011010110001110");
+        lblBUSBin.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblBUSBin,gridConstraint);
+        
+        gridConstraint.gridy = 0;
+        gridConstraint.gridx = 3;
+        lblBUSEn= new JLabel("022333");
+        lblBUSEn.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblBUSEn,gridConstraint);
+        
+        //  Operando 1
         gridConstraint.gridy = 2;
         gridConstraint.gridx = 1;
-        btns_bitsA = new JLabel[8];
-        for (int i = 0; i <= 7; i++) {
-            gridConstraint.gridx = i + 1;
-            JLabel b = crearLabel("0"); 
-            this.add(b, gridConstraint);
-            btns_bitsA[i] = b;
-        }
+        lblOper1Bin = new JLabel("011010101010010101011010110001110");
+        lblOper1Bin.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblOper1Bin,gridConstraint);
+    
+        gridConstraint.gridy = 2;
+        gridConstraint.gridx = 3;
+        lblOper1En= new JLabel("12333");
+        lblOper1En.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblOper1En,gridConstraint);
+        
+        
 
-        // B 
+        // Operando 2
         gridConstraint.gridy = 4;
         gridConstraint.gridx = 1;
-        btns_bitsB = new JLabel[8];
-        for (int i = 0; i <= 7; i++) {
-            gridConstraint.gridx = i + 1;
-            JLabel b = crearLabel("0"); 
-            this.add(b, gridConstraint);
-            btns_bitsB[i] = b;
-        }
-
+        lblOper2Bin = new JLabel("011010101010010101011010110001110");
+        lblOper2Bin.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblOper2Bin,gridConstraint);
+        
+        
+        gridConstraint.gridy = 4;
+        gridConstraint.gridx = 3;
+        lblOper2En= new JLabel("02333");
+        lblOper2En.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblOper2En,gridConstraint);
+        
+        
         //  ALU 
         gridConstraint.gridy = 6;
         gridConstraint.gridx = 1;
-        btns_bitsALU = new JLabel[8];
-        for (int i = 0; i <= 7; i++) {
-            gridConstraint.gridx = i + 1;
-            JLabel b = crearLabel("0"); 
-            this.add(b, gridConstraint);
-            btns_bitsALU[i] = b;
-        }
-
+        lblALUBin = new JLabel("011010101010010101011010110001110");
+        lblALUBin.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblALUBin,gridConstraint);
+        
+        gridConstraint.gridy = 6;
+        gridConstraint.gridx = 3;
+        lblALUEn= new JLabel("02333");
+        lblALUEn.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblALUEn,gridConstraint);
+        
+        
         //  IR 
         gridConstraint.gridy = 8;
         gridConstraint.gridx = 1;
-        btns_bitsIR = new JLabel[8];
-        for (int i = 0; i <= 7; i++) {
-            gridConstraint.gridx = i + 1;
-            JLabel b = crearLabel("0"); 
-            this.add(b, gridConstraint);
-            btns_bitsIR[i] = b;
-        }
-
-        //  out 
-        gridConstraint.gridy = 12;
-        gridConstraint.gridx = 1;
-        btns_bitsOUT = new JLabel[8];
-        for (int i = 0; i <= 7; i++) {
-            gridConstraint.gridx = i + 1;
-            JLabel b = crearLabel("0"); 
-            this.add(b, gridConstraint);
-            btns_bitsOUT[i] = b;
-        }
+        lblIRBin = new JLabel("1010101010101011101001");
+        lblIRBin.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblIRBin,gridConstraint);
+        
 
         //  PC
         gridConstraint.gridy = 10;
         gridConstraint.gridx = 1;
-        btns_bitsPC = new JLabel[4];
-        for (int i = 0; i <= 3; i++) {
-            gridConstraint.gridx = i + 1;
-            JLabel b = crearLabel("0"); 
-            this.add(b, gridConstraint);
-            btns_bitsPC[i] = b;
-        }
+        lblPCBin = new JLabel("011010101010010101011010110001110");
+        lblPCBin.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblPCBin,gridConstraint);
+        
+        gridConstraint.gridy = 10;
+        gridConstraint.gridx = 3;
+        lblPCEn= new JLabel("02333");
+        lblPCEn.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblPCEn,gridConstraint);
+          
 
         //  MAR
         gridConstraint.gridy = 14;
         gridConstraint.gridx = 1;
-        btns_bitsMAR = new JLabel[4];
-        for (int i = 0; i <= 3; i++) {
-            gridConstraint.gridx = i + 1;
-            JLabel b = crearLabel("0"); 
-            this.add(b, gridConstraint);
-            btns_bitsMAR[i] = b;
-        }
-
+        lblMARBin = new JLabel("011010101010010101011010110001110");
+        lblMARBin.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblMARBin,gridConstraint);
+        
+        gridConstraint.gridy = 14;
+        gridConstraint.gridx = 3;
+        lblMAREn= new JLabel("02333");
+        lblMAREn.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(lblMAREn,gridConstraint);
+        
+        
         //  Flags
         gridConstraint.gridy = 20;
         gridConstraint.gridx = 1;
@@ -254,13 +271,13 @@ public class VistaWidgetSAP extends JPanel{
         gridConstraint.gridwidth = 1;
         gridConstraint.gridy = 2;
         gridConstraint.gridx = 0;
-        this.lblRegA = new JLabel("Registro A");
+        this.lblRegA = new JLabel("Operando 1");
         this.add(lblRegA, gridConstraint);
 
         //  B
         gridConstraint.gridy = 4;
         gridConstraint.gridx = 0;
-        this.lblRegB = new JLabel("Registro B");
+        this.lblRegB = new JLabel("Operando 2");
         this.add(lblRegB, gridConstraint);
 
         // ALU 
@@ -270,22 +287,22 @@ public class VistaWidgetSAP extends JPanel{
         this.add(lblALU, gridConstraint);
 
         generarDivision(7);
-        
+        //IR
+        gridConstraint.gridy = 8;
+        gridConstraint.gridx = 0;
+        this.lblIR = new JLabel("IR");
+        this.add(lblIR, gridConstraint);
+
          // PC 
         gridConstraint.gridy = 10;
         gridConstraint.gridx = 0;
-        this.lblIR = new JLabel("Contador de Programa");
-        this.add(lblIR, gridConstraint);
+        this.lblPC = new JLabel("Contador de Programa");
+        this.add(lblPC, gridConstraint);
 
         // Line Break
         generarDivision(11);
 
-        // OUT 
-        gridConstraint.gridy = 12;
-        gridConstraint.gridx = 0;
-        this.lblOut = new JLabel("Salida");
-        this.add(lblOut, gridConstraint);
-
+     
         // Memory Address Register 
         gridConstraint.gridy = 14;
         gridConstraint.gridx = 0;
@@ -336,18 +353,6 @@ public class VistaWidgetSAP extends JPanel{
         
     }
 
-    public JLabel[] getBtns_bitsA() {
-        return btns_bitsA;
-    }
-
-    public JLabel[] getBtns_bitsB() {
-        return btns_bitsB;
-    }
-
-    public JLabel[] getBtns_bitsALU() {
-        return btns_bitsALU;
-    }
-
     public JLabel[] getBtns_bitsIR() {
         return btns_bitsIR;
     }
@@ -356,21 +361,12 @@ public class VistaWidgetSAP extends JPanel{
         return btns_bitsOUT;
     }
 
-    public JLabel[] getBtns_bitsPC() {
-        return btns_bitsPC;
-    }
 
-    public JLabel[] getBtns_bitsMAR() {
-        return btns_bitsMAR;
-    }
 
     public JLabel[] getBtns_bitsControl() {
         return btns_bitsControl;
     }
 
-    public JLabel[] getBtns_bistBUS() {
-        return btns_bistBUS;
-    }
 
     public JLabel getBtnCarry() {
         return btnCarry;
@@ -400,17 +396,14 @@ public class VistaWidgetSAP extends JPanel{
         return lblALU;
     }
 
-    public JLabel getLblIR() {
-        return lblIR;
+    public JLabel getLblPC() {
+        return lblPC;
     }
 
     public JLabel getLblOut() {
         return lblOut;
     }
 
-    public JLabel getLblPC() {
-        return lblPC;
-    }
 
     public JLabel getLblMAR() {
         return lblMAR;
@@ -438,10 +431,6 @@ public class VistaWidgetSAP extends JPanel{
 
     public Modelo getModelo() {
         return modelo;
-    }
-
-    public VistaDisplaySieteSeg getDisplay7Seg() {
-        return display7Seg;
     }
 
     
