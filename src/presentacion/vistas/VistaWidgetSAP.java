@@ -49,6 +49,7 @@ public class VistaWidgetSAP extends JPanel{
     private JLabel btnCarry;
     private JLabel btnZero;
     private VistaWidgetRAM ramWidget;
+    private VistaDisplaySieteSeg display7Seg; 
 
     //Controlador de la vista
     //private ControladorWindgetSAP control;
@@ -57,7 +58,7 @@ public class VistaWidgetSAP extends JPanel{
     
     // Constantes
     public static final Dimension BUTTON_SIZE = new Dimension(22, 22);
-    public static final Dimension WIDGET_SIZE = new Dimension(630, 600);
+    public static final Dimension WIDGET_SIZE = new Dimension(600, 200);
     public static final Color BUTTON_UNSELECTED_BG = new Color(238, 238, 238);
     public static final Color BUTTON_SELECTED_BG = new Color(255, 85, 85);
     public static final Color COLOR_BACKGROUND = new Color(203, 246, 245);
@@ -65,11 +66,11 @@ public class VistaWidgetSAP extends JPanel{
     
     //Constructor con la vista de SieteSeg
     //public VistaWidgetSAP(Modelo m, VistaDisplaySieteSeg display, VistaWidgetRAM ramWidget) {
-    public VistaWidgetSAP(Modelo m, VistaWidgetRAM ramWidget) {
+    public VistaWidgetSAP(Modelo m, VistaWidgetRAM ramWidget, VistaDisplaySieteSeg vista) {
         // Encapsula el modelo
         this.modelo = m;        
         //this.sistema = m.getSistema();
-        //this.vistaDisplay7Seg = display;
+        this.display7Seg = vista;
         this.ramWidget = ramWidget;
         this.setBorder(BorderFactory.createLineBorder(WIDGET_BORDER_COLOR));
 
@@ -335,5 +336,114 @@ public class VistaWidgetSAP extends JPanel{
         
     }
 
+    public JLabel[] getBtns_bitsA() {
+        return btns_bitsA;
+    }
+
+    public JLabel[] getBtns_bitsB() {
+        return btns_bitsB;
+    }
+
+    public JLabel[] getBtns_bitsALU() {
+        return btns_bitsALU;
+    }
+
+    public JLabel[] getBtns_bitsIR() {
+        return btns_bitsIR;
+    }
+
+    public JLabel[] getBtns_bitsOUT() {
+        return btns_bitsOUT;
+    }
+
+    public JLabel[] getBtns_bitsPC() {
+        return btns_bitsPC;
+    }
+
+    public JLabel[] getBtns_bitsMAR() {
+        return btns_bitsMAR;
+    }
+
+    public JLabel[] getBtns_bitsControl() {
+        return btns_bitsControl;
+    }
+
+    public JLabel[] getBtns_bistBUS() {
+        return btns_bistBUS;
+    }
+
+    public JLabel getBtnCarry() {
+        return btnCarry;
+    }
+
+    public JLabel getBtnZero() {
+        return btnZero;
+    }
+
+    public GridBagConstraints getGridConstraint() {
+        return gridConstraint;
+    }
+
+    public VistaWidgetRAM getRamWidget() {
+        return ramWidget;
+    }
+
+    public JLabel getLblRegA() {
+        return lblRegA;
+    }
+
+    public JLabel getLblRegB() {
+        return lblRegB;
+    }
+
+    public JLabel getLblALU() {
+        return lblALU;
+    }
+
+    public JLabel getLblIR() {
+        return lblIR;
+    }
+
+    public JLabel getLblOut() {
+        return lblOut;
+    }
+
+    public JLabel getLblPC() {
+        return lblPC;
+    }
+
+    public JLabel getLblMAR() {
+        return lblMAR;
+    }
+
+    public JLabel getLblControles() {
+        return lblControles;
+    }
+
+    public JLabel getLblStepCount() {
+        return lblStepCount;
+    }
+
+    public JLabel getLblBus() {
+        return lblBus;
+    }
+
+    public JLabel getLblStepCt() {
+        return lblStepCt;
+    }
+
+    public JLabel getLblFlags() {
+        return lblFlags;
+    }
+
+    public Modelo getModelo() {
+        return modelo;
+    }
+
+    public VistaDisplaySieteSeg getDisplay7Seg() {
+        return display7Seg;
+    }
+
+    
 
 }

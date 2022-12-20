@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import presentacion.Modelo;
+import presentacion.controladores.ControladorWidgetRAM;
 import presentacion.vistas.VistaPanelControl;
 
 /**
@@ -26,6 +27,8 @@ import presentacion.vistas.VistaPanelControl;
 public class VistaWidgetRAM extends JPanel{
     
     private VistaPanelControl vistaControl;
+    
+    private ControladorWidgetRAM controlador;
     
     private GridBagConstraints gridConstraint;
     
@@ -47,7 +50,7 @@ public class VistaWidgetRAM extends JPanel{
             
     //Constantes de diseño
     private static final Dimension buttonSize = new Dimension(22, 22);
-    private static final Dimension WIDGET_SIZE = new Dimension(400, 700);
+    private static final Dimension WIDGET_SIZE = new Dimension(600, 700);
     public static final Color COLOR_ON = new Color(246, 203, 225);
     public static final Color COLOR_OFF = new Color(246, 213, 203);
     public static final Color COLOR_MAR = Color.gray;
@@ -89,7 +92,7 @@ public class VistaWidgetRAM extends JPanel{
         mostrarBtnOP();
         mostrarBtnResaltarMAR();
         mostrarContenidoRAM();
-        //getControl().cambioMAR(this.valorMAR);
+        getControlador().cambioMAR(this.valorMAR);
         
         agregarEtiquetasRegistros();
         repaint();
@@ -106,7 +109,7 @@ public class VistaWidgetRAM extends JPanel{
                 this.btnArrayBotones[i][j]= new JButton("0");
                 this.btnArrayBotones[i][j].setPreferredSize(buttonSize);
                 this.btnArrayBotones[i][j].setActionCommand(i + "," + j);
-                //this.btnArrayBotones[i][j].addActionListener(getControl());
+                this.btnArrayBotones[i][j].addActionListener(getControlador());
                 this.btnArrayBotones[i][j].setBorder(null);
                 this.btnArrayBotones[i][j].setBackground(btnArrayBotones[i][j].getText().equals("1") ? COLOR_ON : COLOR_OFF);
                 this.btnArrayBotones[i][j].setOpaque(true);
@@ -123,7 +126,7 @@ public class VistaWidgetRAM extends JPanel{
         gridConstraint.gridwidth = 37;
         this.btnLimpiarMemoria = new JButton("Borrar memoria");
         this.btnLimpiarMemoria.setActionCommand("clearmem");
-        //this.btnLimpiarMemoria.addActionListener(getControl());
+        this.btnLimpiarMemoria.addActionListener(getControlador());
         this.add(this.btnLimpiarMemoria, gridConstraint);
      }
      
@@ -135,7 +138,7 @@ public class VistaWidgetRAM extends JPanel{
         gridConstraint.gridwidth = 37;
         this.btnMostrarOpcodes = new JButton("Mostrar Códigos de Operación");
         this.btnMostrarOpcodes.setActionCommand("showopcodes");
-       // this.btnMostrarOpcodes.addActionListener(getControl());
+        this.btnMostrarOpcodes.addActionListener(getControlador());
         this.add(this.btnMostrarOpcodes, gridConstraint);
      }
      
@@ -146,7 +149,7 @@ public class VistaWidgetRAM extends JPanel{
         gridConstraint.gridwidth = 37;
         this.btnResaltarMAR = new JButton(this.resaltarMAR ? MAR_ON_LABEL : MAR_OFF_LABEL);
         this.btnResaltarMAR.setActionCommand("toggleMAR");
-       // this.btnResaltarMAR.addActionListener(getControl());
+        this.btnResaltarMAR.addActionListener(getControlador());
         this.add(this.btnResaltarMAR, gridConstraint);
      }
      
@@ -245,5 +248,46 @@ public class VistaWidgetRAM extends JPanel{
         }
          
      }
+
+    public VistaPanelControl getVistaControl() {
+        return vistaControl;
+    }
+
+    public Modelo getModelo() {
+        return modelo;
+    }
+
+    public JButton[][] getBtnArrayBotones() {
+        return btnArrayBotones;
+    }
+
+    public boolean isResaltarMAR() {
+        return resaltarMAR;
+    }
+
+    public Byte getValorMAR() {
+        return valorMAR;
+    }
+
+    public void setValorMAR(Byte valorMAR) {
+        this.valorMAR = valorMAR;
+    }
+
+    public void setResaltarMAR(boolean resaltarMAR) {
+        this.resaltarMAR = resaltarMAR;
+    }
+
+    public JButton getBtnResaltarMAR() {
+        return btnResaltarMAR;
+    }
+
+    public ControladorWidgetRAM getControlador() {
+        if(controlador==null){
+            controlador= new ControladorWidgetRAM(this);
+        }
+        return controlador;
+    }
     
+    
+     
 }

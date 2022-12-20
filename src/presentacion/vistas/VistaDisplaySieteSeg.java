@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -58,9 +57,9 @@ public class VistaDisplaySieteSeg extends JPanel {
         // Layout
         this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.VERTICAL;
         this.setBackground(new Color(223, 220, 206));
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.setBorder(BorderFactory.createLineBorder(Color.RED));
         this.valor = 0;
 
         // display
