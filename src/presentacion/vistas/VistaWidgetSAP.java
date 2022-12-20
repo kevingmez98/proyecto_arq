@@ -433,6 +433,62 @@ public class VistaWidgetSAP extends JPanel{
         return modelo;
     }
 
+    public JLabel getLblIR() {
+        return lblIR;
+    }
+
+    public JLabel getLblBUSBin() {
+        return lblBUSBin;
+    }
+
+    public JLabel getLblBUSEn() {
+        return lblBUSEn;
+    }
+
+    public JLabel getLblOper1Bin() {
+        return lblOper1Bin;
+    }
+
+    public JLabel getLblOper1En() {
+        return lblOper1En;
+    }
+
+    public JLabel getLblOper2Bin() {
+        return lblOper2Bin;
+    }
+
+    public JLabel getLblOper2En() {
+        return lblOper2En;
+    }
+
+    public JLabel getLblALUBin() {
+        return lblALUBin;
+    }
+
+    public JLabel getLblALUEn() {
+        return lblALUEn;
+    }
+
+    public JLabel getLblPCBin() {
+        return lblPCBin;
+    }
+
+    public JLabel getLblPCEn() {
+        return lblPCEn;
+    }
+
+    public JLabel getLblMARBin() {
+        return lblMARBin;
+    }
+
+    public JLabel getLblMAREn() {
+        return lblMAREn;
+    }
+
+    public JLabel getLblIRBin() {
+        return lblIRBin;
+    }
+
     
 
 }
