@@ -78,6 +78,9 @@ public class Bus {
         public int getescritor(){
             return this.escritor;
         }
+        public int getvalorbus(){
+            return this.Datoenelbus;
+        }
     }
     
     
