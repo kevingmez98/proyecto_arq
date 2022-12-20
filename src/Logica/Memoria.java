@@ -27,8 +27,8 @@ public class Memoria {
         this.notifyObservers(this.mar.getDireccionAct());
     }
 
-    //Devuelve el entero correspondiente a la instruccion que comienza donde apunte el MAR
-    public int getInstr() {
+    //Devuelve el entero correspondiente a la instruccion/valor que comienza donde apunte el MAR
+    public int getContenidoEntero() {
         if (mar.getDireccionAct() <= 16777212) {
             int[] temp = new int[4];
             for (int i = 0; i < 4; i++) {
@@ -83,6 +83,11 @@ public class Memoria {
     public void escribirInstAlBus(int inst) {
         this.Bus_Asociado.Escribirenelbus(id, inst);
     }
+    
+    //Escribe el contenido entero de cuatro direcciones sucsivas empezando en donde apunta la MAR
+    public void escribirEnteroAlBus(){
+        this.Bus_Asociado.Escribirenelbus(id, this.getContenidoEntero());
+    }
 
     public void leerdelbus() {
         //Actualiza el valor del registro al que esta en el Bus y le avisa que al Bus que lo hace.
@@ -91,17 +96,16 @@ public class Memoria {
 
     public void leerPalabradelBus() {
         for (int i = 0; i < 4; i++) {
-            try{
-            this.cambiarValor((i + mar.getDireccionAct()), intTobytearray(this.Bus_Asociado.leerdelbus(id))[3-i]);
-            }catch(Exception e){
-                this.cambiarValor((i + mar.getDireccionAct()), (byte)0);
+            try {
+                this.cambiarValor((i + mar.getDireccionAct()), intTobytearray(this.Bus_Asociado.leerdelbus(id))[i]);
+            } catch (Exception e) {
+                this.cambiarValor((i + mar.getDireccionAct()), (byte) 0);
             }
-            
         }
-        
+
         //Codigo de prueba
-        System.out.println(bytearrayToint(intTobytearray(this.Bus_Asociado.leerdelbus(id)))+ "Valor leido del bus");
-                
+        System.out.println(getContenidoEntero() + "Valor leido del bus");
+
     }
 
     public int bytearrayToint(byte[] array) {
@@ -113,12 +117,21 @@ public class Memoria {
 
     public byte[] intTobytearray(int valor) {
         //Solo convierte un entero a un array de bits
+        //Este fragmento no coloca los bytes en orden en la memoria
+        /*
         BigInteger Enterodecimal = new BigInteger(valor + "");
         byte[] arr = Enterodecimal.toByteArray();
+        */
         
-      
-        System.out.println(bytearrayToint(arr));
-        return arr;
+        byte temp[] = new byte[4];
+
+        temp[0] = (byte) (valor & 0b11111111);
+        temp[1] = (byte) ((valor >>> 8) & 0b11111111) ;
+        temp[2] = (byte) ((valor >>> 16) & 0b11111111);
+        temp[3] = (byte) ((valor >>> 24) & 0b11111111);
+
+        //System.out.println(bytearrayToint(temp));
+        return temp;
     }
 
     public void removeRAMObserver(ObservadorRAM o) {

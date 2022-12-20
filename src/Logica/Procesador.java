@@ -1,4 +1,3 @@
-
 package Logica;
 
 public class Procesador implements ObservadorReloj {
@@ -82,7 +81,43 @@ public class Procesador implements ObservadorReloj {
         this.RAM.cambiarValor(6, (byte) 0b00001010);
         this.RAM.cambiarValor(7, (byte) 0b00000000);
 
-        //System.out.println("PRUEBA: "+RAM.getInstr());
+        //Prueba instruccion de carga desde memoria (Se carga el valor anterior al regitro 5)
+        this.RAM.cambiarValor(8, (byte) 0b01000001);
+        this.RAM.cambiarValor(9, (byte) 0b00000001);
+        this.RAM.cambiarValor(10, (byte) 0b00001010);
+        this.RAM.cambiarValor(11, (byte) 0b00000000);
+
+        //Prueba instruccion de suma de registros (Se suma el contenido del registro 3 con el contenido del registro 5 y se guarda en el registtro 8)
+        this.RAM.cambiarValor(12, (byte) 0b00000011);
+        this.RAM.cambiarValor(13, (byte) 0b00101010);
+        this.RAM.cambiarValor(14, (byte) 0b00000011);
+        this.RAM.cambiarValor(15, (byte) 0b00000000);
+
+        //Prueba instruccion de AND (Se usan como operandos el registro 5 y 3 y se guarda el resultado en el registro 8)
+        this.RAM.cambiarValor(16, (byte) 0b00000101);
+        this.RAM.cambiarValor(17, (byte) 0b00101010);
+        this.RAM.cambiarValor(18, (byte) 0b00000011);
+        this.RAM.cambiarValor(19, (byte) 0b00000000);
+
+        //Prueba instruccion de OR (Se usan como operandos el registro 5 y 3 y se guarda el resultado en el registro 8)
+        this.RAM.cambiarValor(20, (byte) 0b00000110);
+        this.RAM.cambiarValor(21, (byte) 0b00101010);
+        this.RAM.cambiarValor(22, (byte) 0b00000011);
+        this.RAM.cambiarValor(23, (byte) 0b00000000);
+
+        //Prueba instruccion de NOT (Se usa como operando el registro 5 y se guarda el resultado en el registro 8)
+        this.RAM.cambiarValor(24, (byte) 0b00000111);
+        this.RAM.cambiarValor(25, (byte) 0b00101010);
+        this.RAM.cambiarValor(26, (byte) 0b00000011);
+        this.RAM.cambiarValor(27, (byte) 0b00000000);
+        
+        //Prueba instruccion de suma inmediata (Se toma como registro operando 5, se le suma el inmediato 100 y se guarda en el registro 8)
+        this.RAM.cambiarValor(28, (byte) 0b00000100);
+        this.RAM.cambiarValor(29, (byte) 0b00101010);
+        this.RAM.cambiarValor(30, (byte) 0b01100100);
+        this.RAM.cambiarValor(31, (byte) 0b00000000);
+
+        //System.out.println("PRUEBA: "+RAM.getContenidoEntero());
     }
 
     public void fetch() {
@@ -100,7 +135,7 @@ public class Procesador implements ObservadorReloj {
                     this.asociado.limpiarlectoresyescritor();
                     this.asociado.CleanBus();
                     //La RAM escribe al bus los datos de la direccion actual de la mar
-                    this.RAM.escribirInstAlBus(this.RAM.getInstr());
+                    this.RAM.escribirEnteroAlBus();
                     //El registro de instrucciones lee la isntruccion del bus
                     this.ir.leerdelbus();
                     //Se Analizan las isntrucciones
@@ -231,16 +266,36 @@ public class Procesador implements ObservadorReloj {
         int inst = ir.getValor();
 
         if (instActual == TipoInstruccion.NOP) {
-
+            if (this.Pasos_reloj == 5) {
+                pc.contar();
+                this.fetched = false;
+            }
         }
 
         if (instActual == TipoInstruccion.LDW) {
+            /*NO SE QUE LINEAS ACTIVAR EN CADA PASO*/
 
+            if (this.Pasos_reloj == 3) {
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+
+                int registrodestino = (inst >>> 6) & 0b11111;
+                this.mar.decodificarDireccion(inst);
+                RAM.escribirEnteroAlBus();
+                Banco_de_registros[registrodestino].leerdelbus();
+                System.out.println("Contenido del registro " + registrodestino + ": " + Banco_de_registros[registrodestino].getValor());
+            }
+
+            if (this.Pasos_reloj == 5) {
+
+                pc.contar();
+                this.fetched = false;
+            }
         }
 
         if (instActual == TipoInstruccion.SW) {
-            
-            
 
             if (this.Pasos_reloj == 3) {
                 this.lineascontrol[IO] = true;
@@ -253,15 +308,16 @@ public class Procesador implements ObservadorReloj {
                 this.lineascontrol[RI] = true;
                 int registroorigen = (inst >> 6) & 0b11111;
                 int fourBytesIJustRead = registroorigen;
-long unsignedValue = fourBytesIJustRead & 0xffffffffL;
+                long unsignedValue = fourBytesIJustRead & 0xffffffffL;
 
                 Banco_de_registros[registroorigen].escribiralbus();
 
                 RAM.leerPalabradelBus();
 
+                /*
                 for (int i = 0; i < 4; i++) {
                     System.out.println("Contenido Posición " + i + ": " + Integer.toBinaryString(RAM.cargarContDir(mar.getDireccionAct() + i)));
-                }
+                }*/
             }
 
             if (this.Pasos_reloj == 5) {
@@ -273,21 +329,222 @@ long unsignedValue = fourBytesIJustRead & 0xffffffffL;
 
         if (instActual == TipoInstruccion.ADD) {
 
+            if (this.Pasos_reloj == 3) {
+                this.lineascontrol[IO] = true;
+                this.lineascontrol[AO] = true;
+
+                int regop1 = (inst >>> 11) & 0b11111;
+
+                Banco_de_registros[regop1].escribiralbus();
+
+                this.alu.leerOperandodelbus(true);
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+                this.lineascontrol[BI] = true;
+                int regop2 = (inst >>> 16) & 0b11111;
+
+                Banco_de_registros[regop2].escribiralbus();
+
+                this.alu.leerOperandodelbus(false);
+            }
+
+            if (this.Pasos_reloj == 5) {
+                this.lineascontrol[SO] = true;
+                this.lineascontrol[FI] = true;
+                this.lineascontrol[AI] = true;
+
+                int regdestino = (inst >>> 6) & 0b11111;
+
+                this.alu.escribirenelbus(this.alu.salidaALU(1));
+
+                Banco_de_registros[regdestino].leerdelbus();
+
+                System.out.println("Resultado de la suma:" + Banco_de_registros[regdestino].getValor());
+
+                pc.contar();
+                this.fetched = false;
+            }
+
         }
 
         if (instActual == TipoInstruccion.ADDI) {
+
+            if (this.Pasos_reloj == 3) {
+
+                this.lineascontrol[IO] = true;
+                this.lineascontrol[AO] = true;
+
+                int regop1 = (inst >>> 11) & 0b11111;
+
+                Banco_de_registros[regop1].escribiralbus();
+
+                this.alu.leerOperandodelbus(true);
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+
+                //NO SE QUE MÁS LINEAS ACTIVAR AQUI
+                
+                this.lineascontrol[BI] = true;
+                
+                int inmd = (inst >>> 16);
+
+                //En esta parte se busca el primer registro que tenga 0 como valor para cargar el inmediato (Excepto el registro zero)
+                for (int i = 1; i < Banco_de_registros.length; i++) {
+                    if (Banco_de_registros[i].getValor() == 0) {
+                        Banco_de_registros[i].setValor(inmd);
+                        Banco_de_registros[i].escribiralbus();
+                        this.alu.leerOperandodelbus(false);
+                        break;
+                    }
+                }
+            }
+
+            if (this.Pasos_reloj == 5) {
+
+                this.lineascontrol[SO] = true;
+                this.lineascontrol[FI] = true;
+                this.lineascontrol[AI] = true;
+
+                int regdestino = (inst >>> 6) & 0b11111;
+
+                this.alu.escribirenelbus(this.alu.salidaALU(1));
+
+                Banco_de_registros[regdestino].leerdelbus();
+
+                System.out.println("Resultado de la suma inmediata:" + Banco_de_registros[regdestino].getValor());
+
+                pc.contar();
+                this.fetched = false;
+
+            }
 
         }
 
         if (instActual == TipoInstruccion.AND) {
 
+            if (this.Pasos_reloj == 3) {
+                this.lineascontrol[IO] = true;
+                this.lineascontrol[AO] = true;
+
+                int regop1 = (inst >>> 11) & 0b11111;
+
+                Banco_de_registros[regop1].escribiralbus();
+
+                this.alu.leerOperandodelbus(true);
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+                this.lineascontrol[BI] = true;
+                int regop2 = (inst >>> 16) & 0b11111;
+
+                Banco_de_registros[regop2].escribiralbus();
+
+                this.alu.leerOperandodelbus(false);
+            }
+
+            if (this.Pasos_reloj == 5) {
+                this.lineascontrol[SO] = true;
+                this.lineascontrol[FI] = true;
+                this.lineascontrol[AI] = true;
+
+                int regdestino = (inst >>> 6) & 0b11111;
+
+                this.alu.escribirenelbus(this.alu.salidaALU(3));
+
+                Banco_de_registros[regdestino].leerdelbus();
+
+                System.out.println("Resultado del AND:" + Integer.toBinaryString(Banco_de_registros[regdestino].getValor()));
+
+                pc.contar();
+                this.fetched = false;
+            }
+
         }
 
         if (instActual == TipoInstruccion.OR) {
 
+            if (this.Pasos_reloj == 3) {
+                this.lineascontrol[IO] = true;
+                this.lineascontrol[AO] = true;
+
+                int regop1 = (inst >>> 11) & 0b11111;
+
+                Banco_de_registros[regop1].escribiralbus();
+
+                this.alu.leerOperandodelbus(true);
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+                this.lineascontrol[BI] = true;
+                int regop2 = (inst >>> 16) & 0b11111;
+
+                Banco_de_registros[regop2].escribiralbus();
+
+                this.alu.leerOperandodelbus(false);
+            }
+
+            if (this.Pasos_reloj == 5) {
+                this.lineascontrol[SO] = true;
+                this.lineascontrol[FI] = true;
+                this.lineascontrol[AI] = true;
+
+                int regdestino = (inst >>> 6) & 0b11111;
+
+                this.alu.escribirenelbus(this.alu.salidaALU(4));
+
+                Banco_de_registros[regdestino].leerdelbus();
+
+                System.out.println("Resultado del OR:" + Integer.toBinaryString(Banco_de_registros[regdestino].getValor()));
+
+                pc.contar();
+                this.fetched = false;
+            }
+
         }
 
         if (instActual == TipoInstruccion.NOT) {
+
+            if (this.Pasos_reloj == 3) {
+
+                this.lineascontrol[IO] = true;
+                this.lineascontrol[AO] = true;
+
+                int regop1 = (inst >>> 11) & 0b11111;
+
+                Banco_de_registros[regop1].escribiralbus();
+
+                this.alu.leerOperandodelbus(true);
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+
+            }
+
+            if (this.Pasos_reloj == 5) {
+
+                this.lineascontrol[SO] = true;
+                this.lineascontrol[FI] = true;
+                this.lineascontrol[AI] = true;
+
+                int regdestino = (inst >>> 6) & 0b11111;
+
+                this.alu.escribirenelbus(this.alu.salidaALU(5));
+
+                Banco_de_registros[regdestino].leerdelbus();
+
+                System.out.println("Resultado del NOT:" + Integer.toBinaryString(Banco_de_registros[regdestino].getValor()));
+
+                pc.contar();
+                this.fetched = false;
+
+            }
 
         }
 
@@ -298,13 +555,12 @@ long unsignedValue = fourBytesIJustRead & 0xffffffffL;
                 lineascontrol[IO] = true;
                 lineascontrol[AI] = true;
                 //Hacer la actualización en la vista.....
-                
+
                 int inmediato = inst >>> 11;
-               
+
                 int registro = inst >> 6;
                 registro = registro & 0b11111;
-                 
-                
+
                 //El registro de instrucciones toma el valor del inmediato a cargar
                 // y lo escribe en el bus para que el registro destino lo lea
                 ir.setValor(inmediato);
@@ -312,11 +568,10 @@ long unsignedValue = fourBytesIJustRead & 0xffffffffL;
                 //TENER CUIDADDO DE NO USAR LOS VALORES 29,30,31 YA QUE EL ARREGLO SOLO TIENE 29 POSICIONES
                 Banco_de_registros[registro].leerdelbus();
                 //Linea de prueba
-                
-                 
+
                 System.out.println("Registro " + registro + ": Su valor ha cambiado a " + Banco_de_registros[registro].getValor());
-            } else {            
-                if(Pasos_reloj == 5){
+            } else {
+                if (Pasos_reloj == 5) {
                     pc.contar();
                     this.fetched = false;
                 }
@@ -326,22 +581,88 @@ long unsignedValue = fourBytesIJustRead & 0xffffffffL;
 
         if (instActual == TipoInstruccion.BEQ) {
 
+            if (this.Pasos_reloj == 3) {
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+
+            }
+
+            if (this.Pasos_reloj == 5) {
+                pc.contar();
+                this.fetched = false;
+            }
+
         }
 
         if (instActual == TipoInstruccion.BGE) {
+
+            if (this.Pasos_reloj == 3) {
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+
+            }
+
+            if (this.Pasos_reloj == 5) {
+                pc.contar();
+                this.fetched = false;
+            }
 
         }
 
         if (instActual == TipoInstruccion.JMP) {
 
+            if (this.Pasos_reloj == 3) {
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+
+            }
+
+            if (this.Pasos_reloj == 5) {
+                pc.contar();
+                this.fetched = false;
+            }
+
         }
 
         if (instActual == TipoInstruccion.OUT) {
 
+            if (this.Pasos_reloj == 3) {
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+
+            }
+
+            if (this.Pasos_reloj == 5) {
+                pc.contar();
+                this.fetched = false;
+            }
+
         }
 
         if (instActual == TipoInstruccion.INVALID) {
-            reset();
+
+            if (this.Pasos_reloj == 3) {
+
+            }
+
+            if (this.Pasos_reloj == 4) {
+
+            }
+
+            if (this.Pasos_reloj == 5) {
+                pc.contar();
+                this.fetched = false;
+                reset();
+            }
+
         }
 
     }
