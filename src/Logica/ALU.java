@@ -5,6 +5,31 @@ public class ALU {
     private Flags banderas;
     private int id, operando1, operando2;
     private Bus bus_asociado;
+    private int salida;
+
+    public int getOperando1() {
+        return operando1;
+    }
+
+    public void setOperando1(int operando1) {
+        this.operando1 = operando1;
+    }
+
+    public int getOperando2() {
+        return operando2;
+    }
+
+    public void setOperando2(int operando2) {
+        this.operando2 = operando2;
+    }
+
+    public int getSalida() {
+        return salida;
+    }
+
+    public void setSalida(int salida) {
+        this.salida = salida;
+    }
     public ALU(Bus asociado) {
         this.banderas = new Flags();
         this.id=43;
@@ -51,8 +76,7 @@ public class ALU {
     }
 
     public int salidaALU(int op) {
-        int salida = 0;
-
+         
         switch (op) {
             case 1:
                 salida = (int) (operando1 + operando2);
@@ -79,7 +103,7 @@ public class ALU {
                 
         }
         
-        return salida;
+        return this.salida;
     }
     
     public void escribirenelbus(int dato){

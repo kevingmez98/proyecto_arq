@@ -44,6 +44,24 @@ public class Memoria {
         }
         return 0;
     }
+    
+    //Devuelve el entero correspondiente a la instruccion/valor que comienza en la direccion del parametro
+    public int getContenidoEnteroDir(int direccion) {
+        if (direccion <= 16777212) {
+            int[] temp = new int[4];
+            for (int i = 0; i < 4; i++) {
+                temp[i] = Byte.toUnsignedInt(this.cargarContDir(direccion + i));
+            }
+
+            int p1 = (int) (temp[0] & 0b11111111111111111111111111111111);
+            int p2 = (int) (temp[1] & 0b11111111111111111111111111111111) << 8;
+            int p3 = (int) (temp[2] & 0b11111111111111111111111111111111) << 16;
+            int p4 = (int) (temp[3] & 0b11111111111111111111111111111111) << 24;
+
+            return p1 + p2 + p3 + p4;
+        }
+        return 0;
+    }
 
     //Carga el contenido de la direccion a la que apunta el MAR
     public byte cargarMemoria() {

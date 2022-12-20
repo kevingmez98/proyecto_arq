@@ -33,7 +33,11 @@ public class ControladorWidgetRAM implements interfaces.IRAMObserver, ActionList
     public void cambiaValorRAM(int address) {
         // Iterar sobre todos los bits en la posición de memoria actual
         for (int i = 0; i <= 31; i++) {
+<<<<<<< HEAD
            //widgetRAM.getBtnArrayBotones()[address][i].setText("" + this.buscarEnRAM(address, 31 - i));
+=======
+            widgetRAM.getBtnArrayBotones()[address][i].setText("" + this.buscarEnRAM(address, 7 - i));
+>>>>>>> origin/huwso1-banana
 
             // Compruebar si es el valor MAR, en cuyo caso se necesita un color para resaltar
             if (widgetRAM.isResaltarMAR() && address == widgetRAM.getValorMAR()) {
@@ -177,12 +181,12 @@ public class ControladorWidgetRAM implements interfaces.IRAMObserver, ActionList
      
   // Función auxiliar para acceder a bits individuales en la memoria; Address: [0, 15]
     // bitPos: [0, 7]
-    public int buscarEnRAM(int address, int bitPos) {
-       // int val = 0b11111111 & this.sistema.getRAM().getData()[address];
-        //return (val >> bitPos) & 0b1;
+    public int buscarEnRAM(int valor, int bitPos) {
+        int val = 0b11111111 & valor;
+        return (val >> bitPos) & 0b1;
         
         //Para  que el programa no explote por falta de return
-        return 0;
+       
     }
     
 }

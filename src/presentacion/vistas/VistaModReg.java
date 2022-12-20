@@ -15,36 +15,42 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import presentacion.controladores.ControladorModReg;
+//Agregar controlador al crear la vista
 
 /**
  *
  * @author Asus
  */
-public class VistaModReg extends JPanel{
-    
+public class VistaModReg extends JPanel {
+
     //txt de la instruccion a modificar
     private JTextField txtDirMod;
-      
+
     //txt direccion a comprobar
     private JTextField txtPosicion;
-      
+
     //txt de la nueva instruccion
     private JTextField txtNuevaInst;
-    
+
     //Botones para lanzar las ventanas
-   private JButton btnVentanaVerPos;
-    
+    private JButton btnVentanaVerPos;
+
     private JButton btnVentanaCambiarIn;
-      
+
     private JButton btnCambiarInstruccion;
-      
+
     private JButton btnVerificarValorPos;
-      
+
     private GridBagConstraints grid;
-    
+
     private ControladorModReg controlador;
+<<<<<<< HEAD
        
     public VistaModReg(){
+=======
+
+    public VistaModReg() {
+>>>>>>> origin/huwso1-banana
         this.setLayout(new GridBagLayout());
         grid = new GridBagConstraints();
         grid.fill = GridBagConstraints.VERTICAL;
@@ -52,14 +58,31 @@ public class VistaModReg extends JPanel{
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         generarFormInstruccion();
         generarFormComprobacion();
+<<<<<<< HEAD
         
          
+=======
+
+>>>>>>> origin/huwso1-banana
     }
-    
+
+    public VistaModReg(ControladorModReg banana) {
+        this.controlador = banana;
+        this.setLayout(new GridBagLayout());
+        grid = new GridBagConstraints();
+        grid.fill = GridBagConstraints.VERTICAL;
+        this.setBackground(new Color(223, 220, 206));
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        generarFormInstruccion();
+        generarFormComprobacion();
+
+    }
+
     //Formulario para comprobar la posicion de memoria
-    public void generarFormComprobacion(){            
+    public void generarFormComprobacion() {
         grid.gridx = 2;
         grid.gridy = 0;
+<<<<<<< HEAD
         JLabel lbl= new JLabel("Verificar valor en posicion");
         this.add(lbl,grid);
             
@@ -72,35 +95,49 @@ public class VistaModReg extends JPanel{
         grid.gridx=2;
         grid.gridy=3;
         btnVerificarValorPos= new JButton("Comprobar valor");
+=======
+        JLabel lbl = new JLabel("Verificar valor en posicion");
+        this.add(lbl, grid);
+
+        grid.gridx = 2;
+        grid.gridy = 1;
+        txtPosicion = new JTextField("Posicion");
+        txtPosicion.setMinimumSize(new Dimension(100, 20));
+        this.add(txtPosicion, grid);
+
+        grid.gridx = 2;
+        grid.gridy = 3;
+        btnVerificarValorPos = new JButton("Comprobar valor");
+>>>>>>> origin/huwso1-banana
         btnVerificarValorPos.setActionCommand("compValorPos");
-        btnVerificarValorPos.addActionListener(getControlador());
-        this.add(btnVerificarValorPos,grid);   
+        btnVerificarValorPos.addActionListener(controlador);
+        this.add(btnVerificarValorPos, grid);
     }
-    
-    public void generarFormInstruccion(){
+
+    public void generarFormInstruccion() {
         grid.gridx = 0;
         grid.gridy = 0;
-        JLabel lbl= new JLabel("Cambiar instruccion");
-        this.add(lbl,grid);
-        
-        grid.gridx=0;
-        grid.gridy=1;
-        txtDirMod= new JTextField("Direccion");
-        txtDirMod.setMinimumSize(new Dimension(100,20));
-        this.add(txtDirMod,grid);
-        
-        grid.gridx=0;
-        grid.gridy=2;
-        txtNuevaInst= new JTextField("instruccion");
-        txtNuevaInst.setMinimumSize(new Dimension(100,20));
-        this.add(txtNuevaInst,grid);
-        
-        grid.gridx=0;
-        grid.gridy=3;
-        btnVerificarValorPos= new JButton("Cambiar instruccion");
-         btnVerificarValorPos.setActionCommand("camInstruccion");
-        btnVerificarValorPos.addActionListener(getControlador());
-        this.add(btnVerificarValorPos,grid);   
+        JLabel lbl = new JLabel("Cambiar instruccion");
+        this.add(lbl, grid);
+
+        grid.gridx = 0;
+        grid.gridy = 1;
+        txtDirMod = new JTextField("Direccion");
+        txtDirMod.setMinimumSize(new Dimension(100, 20));
+        this.add(txtDirMod, grid);
+
+        grid.gridx = 0;
+        grid.gridy = 2;
+        txtNuevaInst = new JTextField("instruccion");
+        txtNuevaInst.setMinimumSize(new Dimension(100, 20));
+        this.add(txtNuevaInst, grid);
+
+        grid.gridx = 0;
+        grid.gridy = 3;
+        btnVerificarValorPos = new JButton("Cambiar instruccion");
+        btnVerificarValorPos.setActionCommand("camInstruccion");
+        btnVerificarValorPos.addActionListener(controlador);
+        this.add(btnVerificarValorPos, grid);
     }
 
     public JTextField getTxtDirMod() {
@@ -128,15 +165,16 @@ public class VistaModReg extends JPanel{
     }
 
     public ControladorModReg getControlador() {
-        if (controlador == null) {
-            controlador = new ControladorModReg(this);
-        }
         return controlador;
     }
+<<<<<<< HEAD
     
     
     
     
     
     
+=======
+
+>>>>>>> origin/huwso1-banana
 }

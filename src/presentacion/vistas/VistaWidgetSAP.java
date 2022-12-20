@@ -63,7 +63,12 @@ public class VistaWidgetSAP extends JPanel{
     private JLabel btnCarry;
     private JLabel btnZero;
     private VistaWidgetRAM ramWidget;
+<<<<<<< HEAD
 
+=======
+    private VistaDisplaySieteSeg display7Seg; 
+   
+>>>>>>> origin/huwso1-banana
     //Controlador de la vista
     //private ControladorWindgetSAP control;
     

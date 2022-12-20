@@ -38,7 +38,6 @@ public class Registro {
 
     public void escribiralbus() {
         this.Bus_asociado.Escribirenelbus(id, valor);
-
     }
 
     public void leerdelbus() {

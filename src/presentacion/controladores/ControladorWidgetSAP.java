@@ -4,6 +4,8 @@
  */
 package presentacion.controladores;
 
+import Logica.ObservadorReloj;
+import Logica.Procesador;
 import interfaces.SAPObserver;
 import presentacion.Modelo;
 import presentacion.vistas.VistaWidgetSAP;
@@ -12,101 +14,116 @@ import presentacion.vistas.VistaWidgetSAP;
  *
  * @author Asus
  */
-public class ControladorWidgetSAP implements SAPObserver{
+public class ControladorWidgetSAP implements SAPObserver,ObservadorReloj{
 
     private VistaWidgetSAP widgetSAP;
     private  Modelo modelo;
-    //private  SistemaSAP sistema;
+    private  Procesador sistema;
     
     
       // Si cambia el registro A/B o cambia la bandera SUB, vuelva a pintar
     private void actualizarALU() {
+<<<<<<< HEAD
         for (int i = 0; i <= 7; i++) {
           //widgetSAP.getBtns_bitsALU()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.ALU, 7 - i));
         }
+=======
+         //this.widgetSAP.unalabel.setText(this.sistema.getAlu().getSalida()+"");
+>>>>>>> origin/huwso1-banana
     }
     @Override
-    public void cambioRegistroA(byte v) {
-        for (int i = 0; i <= 7; i++) {
-            //widgetSAP.getBtns_bitsA()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.A, 7 - i));
-        }
+    public void cambioRegistroA() {
+       this.widgetSAP.unalabel.setText(this.sistema.getAlu().getOperando1()+"");
+       this.widgetSAP.unalabelB.setText(this.sistema.getMar().bytetoString(this.sistema.getAlu().getOperando1()));
         actualizarALU();
     }
 
     @Override
-    public void cambioRegistroB(byte v) {
-        for (int i = 0; i <= 7; i++) {
-            //widgetSAP.getBtns_bitsB()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.B, 7 - i));
-        }
+    public void cambioRegistroB() {
+       this.widgetSAP.unalabel.setText(this.sistema.getAlu().getOperando2()+"");
+       this.widgetSAP.unalabelB.setText(this.sistema.getMar().bytetoString(this.sistema.getAlu().getOperando2()));
         actualizarALU();
     }
 
     @Override
-    public void cambioPC(byte v) {
-        for (int i = 0; i <= 3; i++) {
-         //   widgetSAP.getBtns_bitsPC()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.PC, 3 - i));
-        }
+    public void cambioPC() {
+       this.widgetSAP.unalabel.setText(this.sistema.getPc().getValor()+"");
+       this.widgetSAP.unalabelB.setText(this.sistema.getMar().bytetoString(this.sistema.getPc().getValor()));
     }
 
     @Override
-    public void cambioMAR(byte v) {
-        for (int i = 0; i <= 3; i++) {
-            //widgetSAP.getBtns_bitsMAR()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.MAR, 3 - i));
-        }
-       // widgetSAP.getRamWidget().getControl().cambioMAR(v);
+    public void cambioMAR() {
+        this.widgetSAP.unalabel.setText(this.sistema.getMar().getValor()+"");
+        this.widgetSAP.unalabelB.setText(this.sistema.getMar().bytetoString( (this.sistema.getMar().getValor())));
     }
 
     @Override
-    public void cambioOUT(byte v) {
-        for (int i = 0; i <= 7; i++) {
+    public void cambioOUT() {
+        /*for (int i = 0; i <= 7; i++) {
             //widgetSAP.getBtns_bitsOUT()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.OUT, 7 - i));
         }
+<<<<<<< HEAD
+=======
+        widgetSAP.getDisplay7Seg().setValor(v);*/
+>>>>>>> origin/huwso1-banana
     }
 
     @Override
-    public void cambioIR(byte v) {
-        for (int i = 0; i <= 7; i++) {
-           // widgetSAP.getBtns_bitsIR()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.IR, 7 - i));
-        }
+    public void cambioIR() {
+       this.widgetSAP.unalabelB.setText(this.sistema.getMar().bytetoString(this.sistema.getIr().getValor()));
     }
 
     @Override
-    public void cambioConteoPaso(byte v) {
-        widgetSAP.getLblStepCt().setText("" + v);
+    public void cambioConteoPaso() {
+        widgetSAP.getLblStepCt().setText(this.sistema.getPasos_reloj()+"");
 
     }
 
     @Override
     public void cambioFLAGS() {
-//        if(this.sistema.getFlags().getZF()){
-//            widgetSAP.getBtnZero().setBackground(VistaWidgetSAP.BUTTON_SELECTED_BG);
-//        }else{
-//            widgetSAP.getBtnZero().setBackground(VistaWidgetSAP.BUTTON_UNSELECTED_BG);
-//        }
-//        if(this.sistema.getFlags().getCF()){
-//            widgetSAP.getBtnCarry().setBackground(VistaWidgetSAP.BUTTON_SELECTED_BG);
-//        }else{
-//            widgetSAP.getBtnCarry().setBackground(VistaWidgetSAP.BUTTON_UNSELECTED_BG);
-//        }        
+        if(this.sistema.getAlu().getZeroFlag()){
+            widgetSAP.getBtnZero().setBackground(VistaWidgetSAP.BUTTON_SELECTED_BG);
+        }else{
+            widgetSAP.getBtnZero().setBackground(VistaWidgetSAP.BUTTON_UNSELECTED_BG);
+        }
+        if(this.sistema.getAlu().getCarryFlag()){
+            widgetSAP.getBtnCarry().setBackground(VistaWidgetSAP.BUTTON_SELECTED_BG);
+        }else{
+            widgetSAP.getBtnCarry().setBackground(VistaWidgetSAP.BUTTON_UNSELECTED_BG);
+        }        
     }
 
     @Override
-    public void cambioBUS(byte v) {
-        for (int i = 0; i <= 7; i++) {
-            //widgetSAP.getBtns_bistBUS()[i].setText(sistema.decodificarRegistro(SistemaSAP.TipoRegistro.BUS, 7 - i));
-        }
+    public void cambioBUS() {
+        this.widgetSAP.unalabel.setText(this.sistema.getAsociado().getvalorbus());
+        this.widgetSAP.unalabelB.setText(this.sistema.getMar().bytetoString(this.sistema.getAsociado().getvalorbus()));
     }
 
     @Override
     public void cambioLineasControl() {
-//        boolean[] newLines = this.sistema.getControlLines();
-//        for (int i = 0; i < newLines.length; i++) {
-//            if (newLines[i]) {
-//                widgetSAP.getBtns_bitsControl()[i].setBackground(widgetSAP.BUTTON_SELECTED_BG);
-//            } else {
-//                widgetSAP.getBtns_bitsControl()[i].setBackground(widgetSAP.BUTTON_UNSELECTED_BG);
-//            }
-//        }
+        boolean[] newLines = this.sistema.getLineascontrol();
+        for (int i = 0; i < newLines.length; i++) {
+            if (newLines[i]) {
+                widgetSAP.getBtns_bitsControl()[i].setBackground(widgetSAP.BUTTON_SELECTED_BG);
+            } else {
+                widgetSAP.getBtns_bitsControl()[i].setBackground(widgetSAP.BUTTON_UNSELECTED_BG);
+            }
+        }
+    }
+
+    @Override
+    public void cambioReloj() {
+        this.actualizarALU();
+        this.cambioBUS();
+        this.cambioConteoPaso();
+        this.cambioFLAGS();
+        this.cambioIR();
+        this.cambioLineasControl();
+        this.cambioMAR();
+        this.cambioPC();
+        this.cambioRegistroA();
+        this.cambioRegistroB();
+        
     }
     
 }
