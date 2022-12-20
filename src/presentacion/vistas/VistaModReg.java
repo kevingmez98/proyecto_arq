@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import presentacion.controladores.ControladorModReg;
-
+//Agregar controlador al crear la vista
 /**
  *
  * @author Asus
@@ -55,6 +55,19 @@ public class VistaModReg extends JPanel{
         
          
     }
+    public VistaModReg(ControladorModReg banana){
+        this.controlador=banana;
+          this.setLayout(new GridBagLayout());
+        grid = new GridBagConstraints();
+        grid.fill = GridBagConstraints.VERTICAL;
+        this.setBackground(new Color(223, 220, 206));
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        generarFormInstruccion();
+        generarFormComprobacion();
+        
+        
+         
+    }
     
     //Formulario para comprobar la posicion de memoria
     public void generarFormComprobacion(){            
@@ -73,7 +86,7 @@ public class VistaModReg extends JPanel{
         grid.gridy=3;
         btnVerificarValorPos= new JButton("Comprobar valor");
         btnVerificarValorPos.setActionCommand("compValorPos");
-        btnVerificarValorPos.addActionListener(getControlador());
+        btnVerificarValorPos.addActionListener(controlador);
         this.add(btnVerificarValorPos,grid);   
     }
     
@@ -99,7 +112,7 @@ public class VistaModReg extends JPanel{
         grid.gridy=3;
         btnVerificarValorPos= new JButton("Cambiar instruccion");
          btnVerificarValorPos.setActionCommand("camInstruccion");
-        btnVerificarValorPos.addActionListener(getControlador());
+        btnVerificarValorPos.addActionListener(controlador);
         this.add(btnVerificarValorPos,grid);   
     }
 
@@ -128,11 +141,10 @@ public class VistaModReg extends JPanel{
     }
 
     public ControladorModReg getControlador() {
-        if (controlador == null) {
-            controlador = new ControladorModReg(this);
-        }
+       
         return controlador;
     }
+
     
     
     

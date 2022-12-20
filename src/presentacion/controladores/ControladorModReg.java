@@ -4,6 +4,7 @@
  */
 package presentacion.controladores;
 
+import Logica.Procesador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
@@ -17,9 +18,13 @@ import presentacion.vistas.VistaModReg;
  */
 public class ControladorModReg implements ActionListener, ChangeListener{
 
-    
+    Procesador Prosac;
     VistaModReg vistaMod;
     
+    public ControladorModReg(VistaModReg v,Procesador Aderall){
+        vistaMod=v;
+        this.Prosac=Aderall;
+    }
     public ControladorModReg(VistaModReg v){
         vistaMod=v;
     }

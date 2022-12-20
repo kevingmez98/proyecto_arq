@@ -50,7 +50,7 @@ public class VistaWidgetSAP extends JPanel{
     private JLabel btnZero;
     private VistaWidgetRAM ramWidget;
     private VistaDisplaySieteSeg display7Seg; 
-
+   
     //Controlador de la vista
     //private ControladorWindgetSAP control;
     
