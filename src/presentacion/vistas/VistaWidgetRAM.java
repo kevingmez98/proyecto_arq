@@ -150,6 +150,7 @@ public class VistaWidgetRAM extends JPanel{
         this.btnResaltarMAR = new JButton(this.resaltarMAR ? MAR_ON_LABEL : MAR_OFF_LABEL);
         this.btnResaltarMAR.setActionCommand("toggleMAR");
         this.btnResaltarMAR.addActionListener(getControlador());
+        this.add(this.btnResaltarMAR, gridConstraint);
      }
      
      public void agregarEtiquetasRegistros(){
