@@ -20,6 +20,86 @@ public class Procesador implements ObservadorReloj {
     public static final int J = 14; // Nuevo valor del PC cuando hay un salto
     public static final int FI = 15; // No c
 
+    public RegistroMAR getMar() {
+        return mar;
+    }
+
+    public void setMar(RegistroMAR mar) {
+        this.mar = mar;
+    }
+
+    public ContadorPrograma getPc() {
+        return pc;
+    }
+
+    public void setPc(ContadorPrograma pc) {
+        this.pc = pc;
+    }
+
+    public RegistroInstrucciones getIr() {
+        return ir;
+    }
+
+    public void setIr(RegistroInstrucciones ir) {
+        this.ir = ir;
+    }
+
+    public Registro[] getBanco_de_registros() {
+        return Banco_de_registros;
+    }
+
+    public void setBanco_de_registros(Registro[] Banco_de_registros) {
+        this.Banco_de_registros = Banco_de_registros;
+    }
+
+    public Bus getAsociado() {
+        return asociado;
+    }
+
+    public void setAsociado(Bus asociado) {
+        this.asociado = asociado;
+    }
+
+    public Memoria getRAM() {
+        return RAM;
+    }
+
+    public void setRAM(Memoria RAM) {
+        this.RAM = RAM;
+    }
+
+    public int getPasos_reloj() {
+        return Pasos_reloj;
+    }
+
+    public void setPasos_reloj(int Pasos_reloj) {
+        this.Pasos_reloj = Pasos_reloj;
+    }
+
+    public ALU getAlu() {
+        return alu;
+    }
+
+    public void setAlu(ALU alu) {
+        this.alu = alu;
+    }
+
+    public boolean[] getLineascontrol() {
+        return lineascontrol;
+    }
+
+    public void setLineascontrol(boolean[] lineascontrol) {
+        this.lineascontrol = lineascontrol;
+    }
+
+    public TipoInstruccion getInstActual() {
+        return instActual;
+    }
+
+    public void setInstActual(TipoInstruccion instActual) {
+        this.instActual = instActual;
+    }
+
     // Enumera los tipos de instrucciones válidas admitidas en el simulador
     /* 000000 - NOP
        000001 - LDW
@@ -125,6 +205,8 @@ public class Procesador implements ObservadorReloj {
             switch (this.Pasos_reloj) {
                 case 1:
                     //El program counter pasa al direccion de memoria que tiene al bus
+                    this.lineascontrol[CO]=true;
+                    this.lineascontrol[MI]=true;
                     this.pc.escribiralbus();
                     //El MAR lee la direccion de memoria del bus
                     this.mar.leerdelbus();
@@ -132,12 +214,15 @@ public class Procesador implements ObservadorReloj {
                     break;
                 case 2:
                     //Se vacian los lectores y el escritor del paso anterior
+                    this.resetLineasControl();
                     this.asociado.limpiarlectoresyescritor();
                     this.asociado.CleanBus();
                     //La RAM escribe al bus los datos de la direccion actual de la mar
+                    this.lineascontrol[RO]=true;
                     this.RAM.escribirEnteroAlBus();
                     //El registro de instrucciones lee la isntruccion del bus
                     this.ir.leerdelbus();
+                    this.lineascontrol[II]=true;
                     //Se Analizan las isntrucciones
                     Reconocerinstruccion();
                     //Se marca el fetch como realizado para que no haga conflicto a la hora de ejecutar las instrucciones paso a paso

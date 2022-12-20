@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package presentacion.controladores;
 
+import Logica.Procesador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
@@ -17,17 +15,30 @@ import presentacion.vistas.VistaModReg;
  */
 public class ControladorModReg implements ActionListener, ChangeListener{
 
-    
+    Procesador Prosac;
     VistaModReg vistaMod;
     
+    public ControladorModReg(VistaModReg v,Procesador Aderall){
+        vistaMod=v;
+        this.Prosac=Aderall;
+    }
     public ControladorModReg(VistaModReg v){
         vistaMod=v;
     }
+    
+    
     @Override
     public void actionPerformed(ActionEvent e) {
          if (e.getActionCommand().equals("compValorPos")) {
             if(esBinario(vistaMod.getTxtPosicion().getText())){
                 System.out.println("Es binario, realizar accion ver la posicion");
+                
+                Prosac = new Procesador();
+                int direccion =  Integer.parseInt(vistaMod.getTxtPosicion().getText());
+                int contenido = Prosac.getRAM().getContenidoEnteroDir(direccion);
+                            
+                System.out.println("Valor de la palabra contenida desde la dirección "+ direccion + ": "+Integer.toBinaryString(contenido));
+                
             }else{
                 showMessageDialog(null, "Se insertó un valor no apropiado de posicion");
             }
