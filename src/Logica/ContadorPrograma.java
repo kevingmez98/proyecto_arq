@@ -7,7 +7,7 @@ public class ContadorPrograma extends Registro {
         if (this.getValor() == 79) {
             this.valor = 0;
         } else {
-            this.valor++;
+            this.valor+=4;
         }
     }
 

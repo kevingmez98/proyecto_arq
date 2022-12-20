@@ -27,23 +27,20 @@ public class Memoria {
         this.notifyObservers(this.mar.getDireccionAct());
     }
 
-    
     //Devuelve el entero correspondiente a la instruccion que comienza donde apunte el MAR
     public int getInstr() {
         if (mar.getDireccionAct() <= 16777212) {
-            byte[] temp = new byte[4];
-            int ite = 0;
-            for (int i = mar.getDireccionAct(); i < 4; i++) {
-                temp[ite] = this.cargarContDir(i + ite);
-                ite++;
+            int[] temp = new int[4];
+            for (int i = 0; i < 4; i++) {
+                temp[i] = Byte.toUnsignedInt(this.cargarContDir(mar.getDireccionAct() + i));
             }
-            
-            int p1 = temp[0];
-            int p2 = (int)temp[1]<<8;
-            int p3 = (int)temp[2]<<16;
-            int p4 = (int)temp[3]<<24;
-  
-            return p1+p2+p3+p4;
+
+            int p1 = (int) (temp[0] & 0b11111111111111111111111111111111);
+            int p2 = (int) (temp[1] & 0b11111111111111111111111111111111) << 8;
+            int p3 = (int) (temp[2] & 0b11111111111111111111111111111111) << 16;
+            int p4 = (int) (temp[3] & 0b11111111111111111111111111111111) << 24;
+
+            return p1 + p2 + p3 + p4;
         }
         return 0;
     }
@@ -77,15 +74,29 @@ public class Memoria {
         this.suscriptores.add(o);
     }
 
+    //Escribe el contenido de una dirección (1 byte)
     public void escribiralbus(int a) {
         this.Bus_Asociado.Escribirenelbus(id, this.data[a]);
+    }
 
+    //Escribe el contenido de una instruccion
+    public void escribirInstAlBus(int inst) {
+        this.Bus_Asociado.Escribirenelbus(id, inst);
     }
 
     public void leerdelbus() {
         //Actualiza el valor del registro al que esta en el Bus y le avisa que al Bus que lo hace.
         this.guardarMemoria(intTobytearray(this.Bus_Asociado.leerdelbus(id))[0]);
+    }
 
+    public void leerPalabradelBus() {
+        for (int i = 0; i < 4; i++) {
+            this.cambiarValor((i + mar.getDireccionAct()), intTobytearray(this.Bus_Asociado.leerdelbus(id))[3-i]);
+        }
+        
+        //Codigo de prueba
+        System.out.println(bytearrayToint(intTobytearray(this.Bus_Asociado.leerdelbus(id))));
+                
     }
 
     public int bytearrayToint(byte[] array) {
@@ -98,8 +109,20 @@ public class Memoria {
     public byte[] intTobytearray(int valor) {
         //Solo convierte un entero a un array de bits
         BigInteger Enterodecimal = new BigInteger(valor + "");
-        return Enterodecimal.toByteArray();
-
+        byte[] arr = Enterodecimal.toByteArray();
+        byte[] narr = new byte[4];
+        if (arr.length < 4) {       
+            for (int i = 0; i < narr.length; i++) {
+                try {
+                    narr[i] = arr[i];
+                } catch (Exception e) {
+                    narr[i] = (byte)0;
+                }
+            }
+        }else{
+            narr = arr;
+        }
+        return narr;
     }
 
     public void removeRAMObserver(ObservadorRAM o) {
