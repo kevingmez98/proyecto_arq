@@ -1,9 +1,12 @@
 package Logica;
 
+import javax.swing.JOptionPane;
+import presentacion.vistas.VistaPanelControl;
+
 public class Procesador implements ObservadorReloj {
 
     // Asignamos valores enteros constantes a cada señal de línea de control
-    public static final int HLT = 0; // no c que es
+    public static final int BO = 0; // Parar el programa
     public static final int MI = 1; //La MAR lee
     public static final int RI = 2; //La RAM lee
     public static final int RO = 3; //La RAM escribe
@@ -18,7 +21,7 @@ public class Procesador implements ObservadorReloj {
     public static final int CE = 12; //Ingremento del PC
     public static final int CO = 13; //Valor del PC en el Bus
     public static final int J = 14; // Nuevo valor del PC cuando hay un salto
-    public static final int FI = 15; // No c
+    public static final int FI = 15; // no c
 
     public RegistroMAR getMar() {
         return mar;
@@ -125,6 +128,7 @@ public class Procesador implements ObservadorReloj {
       de forma sencilla ademas, esto se hace para que no se sobreescriban 
       valores en estos registros
      */
+    boolean reset=false;
     RegistroMAR mar;
     ContadorPrograma pc;
     RegistroInstrucciones ir;
@@ -148,8 +152,10 @@ public class Procesador implements ObservadorReloj {
         this.alu = new ALU(asociado);
         this.lineascontrol = new boolean[16];
         this.fetched = false;
+        this.Banco_de_registros[4].setValor(24);
         //Para probar las instrucciones
         //Prueba instruccion de carga inmediata (Se carga un valor en el registro 3)
+        
         this.RAM.cambiarValor(0, (byte) 0b11001000);
         this.RAM.cambiarValor(1, (byte) 0b00000000);
         this.RAM.cambiarValor(2, (byte) 0b00000000);
@@ -272,7 +278,109 @@ public class Procesador implements ObservadorReloj {
         switch (opcode) {
             case 0:
                 System.out.println("La instruccion actual es NOP");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es NOP"+"\n");
                 instActual = TipoInstruccion.NOP;
+                break;
+
+            case 1:
+                System.out.println("La instruccion actual es LDW");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es LDW"+"\n");
+                instActual = TipoInstruccion.LDW;
+                break;
+
+            case 2:
+                System.out.println("La instruccion actual es SW");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es SW"+"\n");
+                instActual = TipoInstruccion.SW;
+                break;
+
+            case 3:
+                System.out.println("La instruccion actual es ADD");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es ADD"+"\n");
+                instActual = TipoInstruccion.ADD;
+                break;
+
+            case 4:
+                System.out.println("La instruccion actual es ADDI");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es ADDI"+"\n");
+                instActual = TipoInstruccion.ADDI;
+                break;
+
+            case 5:
+                System.out.println("La instruccion actual es AND");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es AND"+"\n");
+                instActual = TipoInstruccion.AND;
+                break;
+
+            case 6:
+                System.out.println("La instruccion actual es OR");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es OR"+"\n");
+                instActual = TipoInstruccion.OR;
+                break;
+
+            case 7:
+                System.out.println("La instruccion actual es NOT");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es NOT"+"\n");
+                instActual = TipoInstruccion.NOT;
+                break;
+
+            case 8:
+                System.out.println("La instruccion actual es LDI");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es LDI"+"\n");
+                instActual = TipoInstruccion.LDI;
+                break;
+
+            case 9:
+                System.out.println("La instruccion actual es BEQ");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es BEQ"+"\n");
+                instActual = TipoInstruccion.BEQ;
+                break;
+
+            case 10:
+                System.out.println("La instruccion actual es BGE");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es BGE"+"\n");
+                instActual = TipoInstruccion.BGE;
+                break;
+
+            case 11:
+                System.out.println("La instruccion actual es JMP");
+                 VistaPanelControl.getTxLogArea().append("La instruccion actual es JMP"+"\n");
+                instActual = TipoInstruccion.JMP;
+                break;
+
+            case 12:
+                System.out.println("La instruccion actual es OUT");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es OUT"+"\n");
+                instActual = TipoInstruccion.OUT;
+                break;
+
+            default:
+                System.out.println("La instruccion actual es INVALIDA");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es INVALIDA"+"\n");
+                instActual = TipoInstruccion.INVALID;
+                break;
+
+        }
+
+    }
+    public boolean ReconocerinstruccionValidacion(int instruccion) {
+        //Esta funcion deberia recibir una String o un arreglo de bytes?
+        /*Ninguno, ya que debe recibir 32 bits del registro de instrucciones, por lo que
+          se agrega una función en la memoria, la cual devuelve el entero correspondiente 
+          a los 4 bytes de la instruccion
+         */
+
+        //Recibe el valor contenido en el registro de instrucciones
+        
+
+        //NOP, LDW, SW, ADD, ADDI, AND, OR, NOT, LDI, BEQ, BGE, JMP, OUT, INVALID
+        byte opcode = (byte) (instruccion & 0b00111111);
+
+        switch (opcode) {
+            case 0:
+                System.out.println("La instruccion actual es NOP");
+                instActual = TipoInstruccion.NOP;
+                
                 break;
 
             case 1:
@@ -338,10 +446,12 @@ public class Procesador implements ObservadorReloj {
             default:
                 System.out.println("La instruccion actual es INVALIDA");
                 instActual = TipoInstruccion.INVALID;
-                break;
-
+                JOptionPane.showMessageDialog(null, "Instruccion invalida");
+                return false;
+                
+             
         }
-
+     return true;
     }
 
     public void ejecutarInstruccion() {
@@ -351,26 +461,32 @@ public class Procesador implements ObservadorReloj {
         int inst = ir.getValor();
 
         if (instActual == TipoInstruccion.NOP) {
-            if (this.Pasos_reloj == 5) {
+            if (this.Pasos_reloj == 3) {
                 pc.contar();
+                
+            }
+            if(this.Pasos_reloj==4){
                 this.fetched = false;
             }
         }
 
         if (instActual == TipoInstruccion.LDW) {
-            /*NO SE QUE LINEAS ACTIVAR EN CADA PASO*/
+            /*Done*/
 
             if (this.Pasos_reloj == 3) {
-
+          
+          
             }
 
             if (this.Pasos_reloj == 4) {
-
+          this.lineascontrol[IO]=true;
+           this.lineascontrol[MI]=true;
                 int registrodestino = (inst >>> 6) & 0b11111;
                 this.mar.decodificarDireccion(inst);
                 RAM.escribirEnteroAlBus();
                 Banco_de_registros[registrodestino].leerdelbus();
                 System.out.println("Contenido del registro " + registrodestino + ": " + Banco_de_registros[registrodestino].getValor());
+                VistaPanelControl.getTxLogArea().append("El registro " + registrodestino + " Ha sido cargado con el valor: " + Banco_de_registros[registrodestino].getValor()+"\n");
             }
 
             if (this.Pasos_reloj == 5) {
@@ -399,10 +515,12 @@ public class Procesador implements ObservadorReloj {
 
                 RAM.leerPalabradelBus();
 
-                /*
+                
                 for (int i = 0; i < 4; i++) {
                     System.out.println("Contenido Posición " + i + ": " + Integer.toBinaryString(RAM.cargarContDir(mar.getDireccionAct() + i)));
-                }*/
+                    VistaPanelControl.getTxLogArea().append("Contenido Posición " + (mar.getDireccionAct()+i) + ": " + Integer.toBinaryString(RAM.cargarContDir(mar.getDireccionAct() + i))+"\n");
+                    
+                }
             }
 
             if (this.Pasos_reloj == 5) {
@@ -427,6 +545,7 @@ public class Procesador implements ObservadorReloj {
             }
 
             if (this.Pasos_reloj == 4) {
+                this.lineascontrol[BO]=true;
                 this.lineascontrol[BI] = true;
                 int regop2 = (inst >>> 16) & 0b11111;
 
@@ -447,6 +566,7 @@ public class Procesador implements ObservadorReloj {
                 Banco_de_registros[regdestino].leerdelbus();
 
                 System.out.println("Resultado de la suma:" + Banco_de_registros[regdestino].getValor());
+                VistaPanelControl.getTxLogArea().append("Resultado de la suma:" + Banco_de_registros[regdestino].getValor()+"\n");
 
                 pc.contar();
                 this.fetched = false;
@@ -471,7 +591,7 @@ public class Procesador implements ObservadorReloj {
 
             if (this.Pasos_reloj == 4) {
 
-                //NO SE QUE MÁS LINEAS ACTIVAR AQUI
+                
                 
                 this.lineascontrol[BI] = true;
                 
@@ -501,6 +621,7 @@ public class Procesador implements ObservadorReloj {
                 Banco_de_registros[regdestino].leerdelbus();
 
                 System.out.println("Resultado de la suma inmediata:" + Banco_de_registros[regdestino].getValor());
+                VistaPanelControl.getTxLogArea().append("Resultado de la suma inmediata:" + Banco_de_registros[regdestino].getValor()+"/n");
 
                 pc.contar();
                 this.fetched = false;
@@ -525,6 +646,7 @@ public class Procesador implements ObservadorReloj {
 
             if (this.Pasos_reloj == 4) {
                 this.lineascontrol[BI] = true;
+                this.lineascontrol[BO]=true;
                 int regop2 = (inst >>> 16) & 0b11111;
 
                 Banco_de_registros[regop2].escribiralbus();
@@ -544,7 +666,7 @@ public class Procesador implements ObservadorReloj {
                 Banco_de_registros[regdestino].leerdelbus();
 
                 System.out.println("Resultado del AND:" + Integer.toBinaryString(Banco_de_registros[regdestino].getValor()));
-
+                VistaPanelControl.getTxLogArea().append("Resultado del AND:" + Integer.toBinaryString(Banco_de_registros[regdestino].getValor())+"\n");
                 pc.contar();
                 this.fetched = false;
             }
@@ -567,6 +689,7 @@ public class Procesador implements ObservadorReloj {
 
             if (this.Pasos_reloj == 4) {
                 this.lineascontrol[BI] = true;
+                this.lineascontrol[BO]=true;
                 int regop2 = (inst >>> 16) & 0b11111;
 
                 Banco_de_registros[regop2].escribiralbus();
@@ -586,7 +709,7 @@ public class Procesador implements ObservadorReloj {
                 Banco_de_registros[regdestino].leerdelbus();
 
                 System.out.println("Resultado del OR:" + Integer.toBinaryString(Banco_de_registros[regdestino].getValor()));
-
+                VistaPanelControl.getTxLogArea().append("Resultado del OR:" + Integer.toBinaryString(Banco_de_registros[regdestino].getValor())+"\n");
                 pc.contar();
                 this.fetched = false;
             }
@@ -625,7 +748,7 @@ public class Procesador implements ObservadorReloj {
                 Banco_de_registros[regdestino].leerdelbus();
 
                 System.out.println("Resultado del NOT:" + Integer.toBinaryString(Banco_de_registros[regdestino].getValor()));
-
+                VistaPanelControl.getTxLogArea().append("Resultado del NOT:" + Integer.toBinaryString(Banco_de_registros[regdestino].getValor())+"\n");
                 pc.contar();
                 this.fetched = false;
 
@@ -634,27 +757,34 @@ public class Procesador implements ObservadorReloj {
         }
 
         if (instActual == TipoInstruccion.LDI) {
+            int inmediato = inst >>> 11;
 
+                int registro = inst >> 6;
+                registro = registro & 0b11111;
+            if(this.Pasos_reloj==4){
+                lineascontrol[OI]=true;
+                ir.setValor(inmediato);
+                ir.escribiralbus();
+                Banco_de_registros[registro].leerdelbus();
+                System.out.println("Registro " + registro + ": Su valor ha cambiado a " + Banco_de_registros[registro].getValor());
+                VistaPanelControl.getTxLogArea().append("Registro " + registro + ": Su valor ha cambiado a " + Banco_de_registros[registro].getValor()+"\n");
+            }
+            
             if (this.Pasos_reloj == 3) {
                 /*Activar lineas de control*/
                 lineascontrol[IO] = true;
                 lineascontrol[AI] = true;
                 //Hacer la actualización en la vista.....
 
-                int inmediato = inst >>> 11;
-
-                int registro = inst >> 6;
-                registro = registro & 0b11111;
 
                 //El registro de instrucciones toma el valor del inmediato a cargar
                 // y lo escribe en el bus para que el registro destino lo lea
-                ir.setValor(inmediato);
-                ir.escribiralbus();
+                
                 //TENER CUIDADDO DE NO USAR LOS VALORES 29,30,31 YA QUE EL ARREGLO SOLO TIENE 29 POSICIONES
-                Banco_de_registros[registro].leerdelbus();
+                
                 //Linea de prueba
 
-                System.out.println("Registro " + registro + ": Su valor ha cambiado a " + Banco_de_registros[registro].getValor());
+                
             } else {
                 if (Pasos_reloj == 5) {
                     pc.contar();
@@ -754,7 +884,7 @@ public class Procesador implements ObservadorReloj {
 
     @Override
     public void cambioReloj() {
-
+       if(this.reset==false){
         if (this.Pasos_reloj == 5) {
             this.Pasos_reloj = 1;
             fetch();
@@ -762,15 +892,18 @@ public class Procesador implements ObservadorReloj {
             this.Pasos_reloj++;
             fetch();
         }
-
+       }else{
+           Pasos_reloj = 0;
+           this.reset=false;
+       }
     }
 
     public void reset() {
-        if (Reloj.obtenerReloj().obtenerEstado()) {
-            Reloj.obtenerReloj().cambiarReloj();
-        }
+        
+           
+        
 
-        inicializarBanco();
+        clear();
 
         Pasos_reloj = 0;
 
@@ -787,6 +920,9 @@ public class Procesador implements ObservadorReloj {
         this.asociado.Escribirenelbus(40, 0);
 
         //Actualizar la vista.....
+        this.reset=true;
+         Reloj.obtenerReloj().cambiarReloj();
+         
     }
 
     private void resetLineasControl() {
@@ -797,6 +933,15 @@ public class Procesador implements ObservadorReloj {
         this.asociado.CleanBus();
         this.asociado.limpiarlectoresyescritor();
 
+    }
+    private void clear(){
+        for(int i=0;i<this.Banco_de_registros.length;i++){
+            this.Banco_de_registros[i].clear();
+        }
+        this.ir.clear();
+        this.mar.clear();
+        this.pc.clear();
+        this.RAM.borrarmemoria();
     }
 
 }
