@@ -4,6 +4,7 @@
  */
 package proyecto_arq;
 
+import Logica.Procesador;
 import presentacion.Modelo;
 
 /**
@@ -16,8 +17,9 @@ public class Proyecto_arq {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Procesador procs=new Procesador();
         Modelo modeloInicial= new Modelo();
-        modeloInicial.inicializarModelo();
+        modeloInicial.inicializarModelo(procs);
     }
     
 }

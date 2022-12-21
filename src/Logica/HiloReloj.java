@@ -11,11 +11,7 @@ public class HiloReloj extends Thread {
         this.finalizado = false;
 
         // Valida la entrada
-        if (t < 10 || t > 1000) {
-            t = 500;
-        } else {
-            this.tiempoPausa = t;
-        }
+        this.tiempoPausa=t;
     }
 
     public void terminar() {
@@ -29,7 +25,8 @@ public class HiloReloj extends Thread {
     public void run() {
         while (!finalizado) {            
             try {
-                Thread.sleep((long) tiempoPausa);
+                
+                Thread.sleep((long)tiempoPausa);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

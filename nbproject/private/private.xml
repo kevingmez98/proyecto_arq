@@ -3,13 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/U/2022-3/arq/proyecto_arq/src/presentacion/vistas/VistaModReg.java</file>
-            <file>file:/D:/U/2022-3/arq/proyecto_arq/src/presentacion/controladores/ControladorWidgetSAP.java</file>
-            <file>file:/D:/U/2022-3/arq/proyecto_arq/src/presentacion/controladores/ControladorModReg.java</file>
-            <file>file:/D:/U/2022-3/arq/proyecto_arq/src/presentacion/vistas/VistaPanelControl.java</file>
-            <file>file:/D:/U/2022-3/arq/proyecto_arq/src/presentacion/vistas/VistaWidgetSAP.java</file>
-            <file>file:/D:/U/2022-3/arq/proyecto_arq/src/presentacion/vistas/VistaWidgetRAM.java</file>
-            <file>file:/D:/U/2022-3/arq/proyecto_arq/src/presentacion/controladores/ControladorWidgetRAM.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/interfaces/SAPObserver.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/Logica/Memoria.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/presentacion/controladores/ControladorPanelControl.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/presentacion/vistas/VistaModReg.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/presentacion/vistas/VistaPanelControl.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/Logica/Registro.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/Logica/Procesador.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/Logica/ObservadorRAM.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/presentacion/vistas/VistaWidgetSAP.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/Logica/ObservadorProcesador.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/Logica/ObservadorReloj.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/presentacion/controladores/ControladorWidgetRAM.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/presentacion/vistas/VistaDisplaySieteSeg.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/presentacion/vistas/VistaWidgetRAM.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/presentacion/controladores/ControladorWidgetSAP.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/presentacion/controladores/ControladorModReg.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/Logica/ALU.java</file>
+            <file>file:/C:/Users/jason/Documents/Aqui%20va%20todo/proyecto%20arquitectura/proyecto_arq-main/src/Logica/Bus.java</file>
         </group>
     </open-files>
 </project-private>
