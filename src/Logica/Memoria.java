@@ -26,6 +26,15 @@ public class Memoria {
         this.data[this.mar.getDireccionAct()] = val;
         this.notifyObservers(this.mar.getDireccionAct());
     }
+    public void guardarMemoriaWord(int val,int direccion) {
+        byte[] array=intTobytearray(val);
+        for(int i=0;i<4;i++){
+            
+            this.data[direccion+i]=array[i];
+            
+        }
+        
+    }
 
     //Devuelve el entero correspondiente a la instruccion/valor que comienza donde apunte el MAR
     public int getContenidoEntero() {
@@ -33,24 +42,6 @@ public class Memoria {
             int[] temp = new int[4];
             for (int i = 0; i < 4; i++) {
                 temp[i] = Byte.toUnsignedInt(this.cargarContDir(mar.getDireccionAct() + i));
-            }
-
-            int p1 = (int) (temp[0] & 0b11111111111111111111111111111111);
-            int p2 = (int) (temp[1] & 0b11111111111111111111111111111111) << 8;
-            int p3 = (int) (temp[2] & 0b11111111111111111111111111111111) << 16;
-            int p4 = (int) (temp[3] & 0b11111111111111111111111111111111) << 24;
-
-            return p1 + p2 + p3 + p4;
-        }
-        return 0;
-    }
-    
-    //Devuelve el entero correspondiente a la instruccion/valor que comienza en la direccion del parametro
-    public int getContenidoEnteroDir(int direccion) {
-        if (direccion <= 16777212) {
-            int[] temp = new int[4];
-            for (int i = 0; i < 4; i++) {
-                temp[i] = Byte.toUnsignedInt(this.cargarContDir(direccion + i));
             }
 
             int p1 = (int) (temp[0] & 0b11111111111111111111111111111111);
@@ -164,5 +155,26 @@ public class Memoria {
             o.cambiaValorRAM(address);
         }
     }
+     public int getContenidoEnteroDir(int direccion) {
+        if (direccion <= 16777212) {
+            int[] temp = new int[4];
+            for (int i = 0; i < 4; i++) {
+                temp[i] = Byte.toUnsignedInt(this.cargarContDir(direccion + i));
+            }
+
+            int p1 = (int) (temp[0] & 0b11111111111111111111111111111111);
+            int p2 = (int) (temp[1] & 0b11111111111111111111111111111111) << 8;
+            int p3 = (int) (temp[2] & 0b11111111111111111111111111111111) << 16;
+            int p4 = (int) (temp[3] & 0b11111111111111111111111111111111) << 24;
+
+            return p1 + p2 + p3 + p4;
+        }
+        return 0;
+    }
+     public void borrarmemoria(){
+         for(int i=0;i<this.data.length;i++){
+             this.data[i]=0;
+         }
+     }
 
 }

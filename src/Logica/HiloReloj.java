@@ -6,9 +6,11 @@ public class HiloReloj extends Thread {
 
     private boolean finalizado;
     private double tiempoPausa;
+   
 
     public HiloReloj(double t) {
-        this.finalizado = false;
+        
+ this.finalizado = false;
 
         // Valida la entrada
         if (t < 10 || t > 1000) {
@@ -16,6 +18,8 @@ public class HiloReloj extends Thread {
         } else {
             this.tiempoPausa = t;
         }
+        // Valida la entrada
+        this.tiempoPausa=t;
     }
 
     public void terminar() {
@@ -27,14 +31,19 @@ public class HiloReloj extends Thread {
     }
 
     public void run() {
-        while (!finalizado) {            
+        
+        while (!this.finalizado) {            
             try {
-                Thread.sleep((long) tiempoPausa);
+                
+                this.sleep((long)tiempoPausa);
+                
+                
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             // Hace el cambio, luego repite el ciclo
             Reloj.obtenerReloj().cambiarReloj();
         }
+    
     }
 }

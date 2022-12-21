@@ -4,6 +4,8 @@
  */
 package presentacion.vistas;
 
+import Logica.HiloReloj;
+import Logica.Procesador;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -20,6 +22,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.DefaultCaret;
 import presentacion.Modelo;
+import presentacion.controladores.ControladorModReg;
 import presentacion.controladores.ControladorPanelControl;
 
 /**
@@ -29,10 +32,16 @@ import presentacion.controladores.ControladorPanelControl;
 public class VistaPanelControl extends JPanel{
     
       private Modelo modelo;
-      
+      private Procesador procs;
       private VistaWidgetRAM vistaRAM;
+     public HiloReloj hilo;
+    public Procesador getProcs() {
+        return procs;
+    }
       
       private VistaWidgetSAP vistaSAP;
+
+      private VistaDisplaySieteSeg display7Seg;
       
       private VistaModReg vistaModRegistros;
       
@@ -43,15 +52,73 @@ public class VistaPanelControl extends JPanel{
       private JButton btnPaso;
       
       private JButton btnEjecutar;
+
+    public JButton getBtnEjecutar() {
+        return btnEjecutar;
+    }
       
       private JSlider sliderVel;
+
+    public JSlider getSliderVel() {
+        return sliderVel;
+    }
+
+    public void setSliderVel(JSlider sliderVel) {
+        this.sliderVel = sliderVel;
+    }
       
-      private JTextArea txLogArea;
-      //Permite ajustar las posiciones de los elementos
+      private static JTextArea txLogArea;
+      
       private GridBagConstraints gridConstraints;
+
+    public static JTextArea getTxLogArea() {
+        if(txLogArea==null){
+            txLogArea=new JTextArea();
+        }
+        return txLogArea;
+    }
+    
+    public void setTxLogArea(JTextArea txLogArea) {
+        this.txLogArea = txLogArea;
+    }
+      //Permite ajustar las posiciones de los elementos
+      
       
       public VistaPanelControl(Modelo m){
         this.modelo = m;
+        //this.sistema = modelo.getSistema();
+        this.setBackground(new Color(223, 220, 206));
+        
+        this.setLayout(new GridBagLayout());
+        gridConstraints = new GridBagConstraints();
+        //reajusta el tamaño de los componentes
+        gridConstraints.fill=GridBagConstraints.VERTICAL;
+        
+        //Agregar widget SAP y RAM
+        agregarVistaSAP();     
+        gridConstraints.gridheight=0;
+        //Agrega botones y sliders de reset
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+
+        agregarBotonReinicio();
+        agregarBotonPaso();
+        agregarBotonEjecutar();
+        agregarSliderVelocidad();
+
+         //Espacio para mostrar los registros
+        agregarFormulariosMod();
+        agregarRegistros();
+        
+        
+        //Campos para modificar las instrucciones
+        
+      
+
+
+      }
+        public VistaPanelControl(Modelo m,Procesador procs){
+            this.procs=procs;
+         this.modelo = m;
         //this.sistema = modelo.getSistema();
         this.setBackground(new Color(223, 220, 206));
         
@@ -81,7 +148,6 @@ public class VistaPanelControl extends JPanel{
 
 
       }
-      
       public void agregarBotonReinicio(){
         btnReset = new JButton("Reset");
         btnReset.setActionCommand("btnReset");
@@ -113,8 +179,10 @@ public class VistaPanelControl extends JPanel{
       }
       
       public void agregarVistaSAP(){
-          this.vistaRAM = new VistaWidgetRAM(modelo, this);
-          this.vistaSAP= new VistaWidgetSAP(modelo, this.vistaRAM);
+          this.display7Seg = new VistaDisplaySieteSeg((byte)11111);
+          
+          this.vistaRAM = new VistaWidgetRAM(modelo, this,this.procs);
+          this.vistaSAP= new VistaWidgetSAP(modelo, this.vistaRAM,this.procs);
           gridConstraints.gridx = 1;
           gridConstraints.gridy = 0;
           gridConstraints.gridheight = 8;
@@ -162,7 +230,8 @@ public class VistaPanelControl extends JPanel{
       }
       
       public void agregarRegistros(){
-        txLogArea = new JTextArea(1, 1);
+          
+        txLogArea = getTxLogArea();
         txLogArea.setMaximumSize(new Dimension(30, 10));
         txLogArea.setEditable(false);
         gridConstraints.gridx = 0;
@@ -180,9 +249,22 @@ public class VistaPanelControl extends JPanel{
         this.add(sv, gridConstraints);
       }
       
+      public void asignarSieteSeg(){
+        //Agregar vista siete segmentos tomando el valor del registro del sistema
+        //this.display7Seg = new VistaDisplaySieteSeg(this.sistema.getRegistroSalida().getValor());
+        gridConstraints.ipadx = 0;
+        gridConstraints.ipady =0;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 8;
+        this.display7Seg = new VistaDisplaySieteSeg((byte)11111);
+
+        this.add(this.display7Seg, gridConstraints);
+      }
+      
       public void agregarFormulariosMod(){
           gridConstraints.gridy=7;
-          this.vistaModRegistros= new VistaModReg();
+          
+          this.vistaModRegistros= new VistaModReg(this.procs);
           this.add(vistaModRegistros,gridConstraints);
 
       }

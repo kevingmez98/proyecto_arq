@@ -4,6 +4,7 @@
  */
 package presentacion.vistas;
 
+import Logica.Procesador;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -23,51 +24,54 @@ import presentacion.controladores.ControladorModReg;
  */
 public class VistaModReg extends JPanel {
 
-    //txt de la instruccion a modificar
+    // txt de la instruccion a modificar
     private JTextField txtDirMod;
 
-    //txt direccion a comprobar
+    // txt direccion a comprobar
     private JTextField txtPosicion;
 
-    //txt de la nueva instruccion
+    // txt de la nueva instruccion
     private JTextField txtNuevaInst;
-
-    //Botones para lanzar las ventanas
-    private JButton btnVentanaVerPos;
-
-    private JButton btnVentanaCambiarIn;
 
     private JButton btnCambiarInstruccion;
 
     private JButton btnVerificarValorPos;
 
+    private Procesador procs;
+
     private GridBagConstraints grid;
 
     private ControladorModReg controlador;
-<<<<<<< HEAD
-       
-    public VistaModReg(){
-=======
+
+    public void setControlador(ControladorModReg controlador) {
+        this.controlador = controlador;
+    }
+
+    public void setGrid(GridBagConstraints grid) {
+        this.grid = grid;
+    }
+
+    public JButton getBtnCambiarInstruccion() {
+        return btnCambiarInstruccion;
+    }
+
+    public void setBtnCambiarInstruccion(JButton btnCambiarInstruccion) {
+        this.btnCambiarInstruccion = btnCambiarInstruccion;
+    }
+
+    public JButton getBtnVerificarValorPos() {
+        return btnVerificarValorPos;
+    }
+
+    public void setBtnVerificarValorPos(JButton btnVerificarValorPos) {
+        this.btnVerificarValorPos = btnVerificarValorPos;
+    }
+
+    public GridBagConstraints getGrid() {
+        return grid;
+    }
 
     public VistaModReg() {
->>>>>>> origin/huwso1-banana
-        this.setLayout(new GridBagLayout());
-        grid = new GridBagConstraints();
-        grid.fill = GridBagConstraints.VERTICAL;
-        this.setBackground(new Color(223, 220, 206));
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        generarFormInstruccion();
-        generarFormComprobacion();
-<<<<<<< HEAD
-        
-         
-=======
-
->>>>>>> origin/huwso1-banana
-    }
-
-    public VistaModReg(ControladorModReg banana) {
-        this.controlador = banana;
         this.setLayout(new GridBagLayout());
         grid = new GridBagConstraints();
         grid.fill = GridBagConstraints.VERTICAL;
@@ -78,24 +82,21 @@ public class VistaModReg extends JPanel {
 
     }
 
-    //Formulario para comprobar la posicion de memoria
+    public VistaModReg(Procesador procs){
+        this.procs=procs;
+          this.setLayout(new GridBagLayout());
+        grid = new GridBagConstraints();
+        grid.fill = GridBagConstraints.VERTICAL;
+        this.setBackground(new Color(223, 220, 206));
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        generarFormInstruccion();
+        generarFormComprobacion();   
+    }
+
+    // Formulario para comprobar la posicion de memoria
     public void generarFormComprobacion() {
         grid.gridx = 2;
         grid.gridy = 0;
-<<<<<<< HEAD
-        JLabel lbl= new JLabel("Verificar valor en posicion");
-        this.add(lbl,grid);
-            
-        grid.gridx=2;
-        grid.gridy=1;
-        txtPosicion= new JTextField("Posicion");
-        txtPosicion.setMinimumSize(new Dimension(200,20));
-        this.add(txtPosicion,grid);
-        
-        grid.gridx=2;
-        grid.gridy=3;
-        btnVerificarValorPos= new JButton("Comprobar valor");
-=======
         JLabel lbl = new JLabel("Verificar valor en posicion");
         this.add(lbl, grid);
 
@@ -108,9 +109,8 @@ public class VistaModReg extends JPanel {
         grid.gridx = 2;
         grid.gridy = 3;
         btnVerificarValorPos = new JButton("Comprobar valor");
->>>>>>> origin/huwso1-banana
         btnVerificarValorPos.setActionCommand("compValorPos");
-        btnVerificarValorPos.addActionListener(controlador);
+        btnVerificarValorPos.addActionListener(getControlador());
         this.add(btnVerificarValorPos, grid);
     }
 
@@ -136,7 +136,7 @@ public class VistaModReg extends JPanel {
         grid.gridy = 3;
         btnVerificarValorPos = new JButton("Cambiar instruccion");
         btnVerificarValorPos.setActionCommand("camInstruccion");
-        btnVerificarValorPos.addActionListener(controlador);
+        btnVerificarValorPos.addActionListener(getControlador());
         this.add(btnVerificarValorPos, grid);
     }
 
@@ -165,16 +165,10 @@ public class VistaModReg extends JPanel {
     }
 
     public ControladorModReg getControlador() {
+        if(this.controlador==null){
+           this.controlador=new ControladorModReg(this,this.procs);
+       }
         return controlador;
     }
-<<<<<<< HEAD
-    
-    
-    
-    
-    
-    
-=======
 
->>>>>>> origin/huwso1-banana
 }

@@ -14,11 +14,5 @@ import presentacion.Modelo;
  */
 public class Text {
     
-    public static void main(String[] args) {
-        Procesador Test=new Procesador();
-        HiloReloj hilo=new HiloReloj(1000);
-        hilo.run();
-        
-        
-    }
+   
 }

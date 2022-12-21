@@ -4,6 +4,8 @@
  */
 package presentacion.vistas;
 
+
+import Logica.Procesador;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -13,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import presentacion.Modelo;
+import presentacion.controladores.ControladorWidgetSAP;
 
 /**
  *
@@ -63,14 +66,8 @@ public class VistaWidgetSAP extends JPanel{
     private JLabel btnCarry;
     private JLabel btnZero;
     private VistaWidgetRAM ramWidget;
-<<<<<<< HEAD
-
-=======
-    private VistaDisplaySieteSeg display7Seg; 
-   
->>>>>>> origin/huwso1-banana
-    //Controlador de la vista
-    //private ControladorWindgetSAP control;
+    private Procesador procs;
+    private ControladorWidgetSAP control;
     
     private GridBagConstraints gridConstraint; 
     
@@ -84,8 +81,10 @@ public class VistaWidgetSAP extends JPanel{
     
     //Constructor con la vista de SieteSeg
     //public VistaWidgetSAP(Modelo m, VistaDisplaySieteSeg display, VistaWidgetRAM ramWidget) {
-    public VistaWidgetSAP(Modelo m, VistaWidgetRAM ramWidget) {
+    public VistaWidgetSAP(Modelo m, VistaWidgetRAM ramWidget, Procesador procs) {
         // Encapsula el modelo
+        
+        this.procs=procs;
         this.modelo = m;        
         //this.sistema = m.getSistema();
         this.ramWidget = ramWidget;
@@ -115,7 +114,7 @@ public class VistaWidgetSAP extends JPanel{
 
         // Estados de las líneas de control
         this.btns_bitsControl = new JLabel[16];
-        this.btns_bitsControl[0] = crearLabel("HLT"); 
+        this.btns_bitsControl[0] = crearLabel("BO"); 
         this.btns_bitsControl[1] = crearLabel("MI");
         this.btns_bitsControl[2] = crearLabel("RI");
         this.btns_bitsControl[3] = crearLabel("RO");
@@ -251,6 +250,7 @@ public class VistaWidgetSAP extends JPanel{
         //Controlador widgetSAP
         //getControl().cambioLineasControl();
         repaint();
+        getControl();
     }
     
     protected JLabel crearLabel(String str){
@@ -260,7 +260,8 @@ public class VistaWidgetSAP extends JPanel{
         b.setFont(new java.awt.Font("Arial", 0, 15)); 
         b.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         b.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        b.setOpaque(true);
+        b.setOpaque(true)
+                ;
         return b;
     }
     
@@ -354,8 +355,11 @@ public class VistaWidgetSAP extends JPanel{
         gridConstraint.gridwidth = 1;
     }
     
-    public void getControl(){
-        
+    public ControladorWidgetSAP getControl(){
+        if(this.control==null){
+            this.control=new ControladorWidgetSAP(this,this.procs);
+        }
+        return this.control;
     }
 
     public JLabel[] getBtns_bitsIR() {
@@ -436,6 +440,62 @@ public class VistaWidgetSAP extends JPanel{
 
     public Modelo getModelo() {
         return modelo;
+    }
+
+    public JLabel getLblIR() {
+        return lblIR;
+    }
+
+    public JLabel getLblBUSBin() {
+        return lblBUSBin;
+    }
+
+    public JLabel getLblBUSEn() {
+        return lblBUSEn;
+    }
+
+    public JLabel getLblOper1Bin() {
+        return lblOper1Bin;
+    }
+
+    public JLabel getLblOper1En() {
+        return lblOper1En;
+    }
+
+    public JLabel getLblOper2Bin() {
+        return lblOper2Bin;
+    }
+
+    public JLabel getLblOper2En() {
+        return lblOper2En;
+    }
+
+    public JLabel getLblALUBin() {
+        return lblALUBin;
+    }
+
+    public JLabel getLblALUEn() {
+        return lblALUEn;
+    }
+
+    public JLabel getLblPCBin() {
+        return lblPCBin;
+    }
+
+    public JLabel getLblPCEn() {
+        return lblPCEn;
+    }
+
+    public JLabel getLblMARBin() {
+        return lblMARBin;
+    }
+
+    public JLabel getLblMAREn() {
+        return lblMAREn;
+    }
+
+    public JLabel getLblIRBin() {
+        return lblIRBin;
     }
 
     
