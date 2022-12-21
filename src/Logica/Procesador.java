@@ -1,5 +1,8 @@
 package Logica;
 
+import javax.swing.JOptionPane;
+import presentacion.vistas.VistaPanelControl;
+
 public class Procesador implements ObservadorReloj {
 
     // Asignamos valores enteros constantes a cada señal de línea de control
@@ -148,6 +151,7 @@ public class Procesador implements ObservadorReloj {
         this.alu = new ALU(asociado);
         this.lineascontrol = new boolean[16];
         this.fetched = false;
+        this.Banco_de_registros[4].setValor(24);
         //Para probar las instrucciones
         //Prueba instruccion de carga inmediata (Se carga un valor en el registro 3)
         this.RAM.cambiarValor(0, (byte) 0b11001000);
@@ -272,7 +276,109 @@ public class Procesador implements ObservadorReloj {
         switch (opcode) {
             case 0:
                 System.out.println("La instruccion actual es NOP");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es NOP"+"\n");
                 instActual = TipoInstruccion.NOP;
+                break;
+
+            case 1:
+                System.out.println("La instruccion actual es LDW");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es LDW"+"\n");
+                instActual = TipoInstruccion.LDW;
+                break;
+
+            case 2:
+                System.out.println("La instruccion actual es SW");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es SW"+"\n");
+                instActual = TipoInstruccion.SW;
+                break;
+
+            case 3:
+                System.out.println("La instruccion actual es ADD");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es ADD"+"\n");
+                instActual = TipoInstruccion.ADD;
+                break;
+
+            case 4:
+                System.out.println("La instruccion actual es ADDI");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es ADDI"+"\n");
+                instActual = TipoInstruccion.ADDI;
+                break;
+
+            case 5:
+                System.out.println("La instruccion actual es AND");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es AND"+"\n");
+                instActual = TipoInstruccion.AND;
+                break;
+
+            case 6:
+                System.out.println("La instruccion actual es OR");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es OR"+"\n");
+                instActual = TipoInstruccion.OR;
+                break;
+
+            case 7:
+                System.out.println("La instruccion actual es NOT");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es NOT"+"\n");
+                instActual = TipoInstruccion.NOT;
+                break;
+
+            case 8:
+                System.out.println("La instruccion actual es LDI");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es LDI"+"\n");
+                instActual = TipoInstruccion.LDI;
+                break;
+
+            case 9:
+                System.out.println("La instruccion actual es BEQ");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es BEQ"+"\n");
+                instActual = TipoInstruccion.BEQ;
+                break;
+
+            case 10:
+                System.out.println("La instruccion actual es BGE");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es BGE"+"\n");
+                instActual = TipoInstruccion.BGE;
+                break;
+
+            case 11:
+                System.out.println("La instruccion actual es JMP");
+                 VistaPanelControl.getTxLogArea().append("La instruccion actual es JMP"+"\n");
+                instActual = TipoInstruccion.JMP;
+                break;
+
+            case 12:
+                System.out.println("La instruccion actual es OUT");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es OUT"+"\n");
+                instActual = TipoInstruccion.OUT;
+                break;
+
+            default:
+                System.out.println("La instruccion actual es INVALIDA");
+                VistaPanelControl.getTxLogArea().append("La instruccion actual es INVALIDA"+"\n");
+                instActual = TipoInstruccion.INVALID;
+                break;
+
+        }
+
+    }
+    public boolean ReconocerinstruccionValidacion(int instruccion) {
+        //Esta funcion deberia recibir una String o un arreglo de bytes?
+        /*Ninguno, ya que debe recibir 32 bits del registro de instrucciones, por lo que
+          se agrega una función en la memoria, la cual devuelve el entero correspondiente 
+          a los 4 bytes de la instruccion
+         */
+
+        //Recibe el valor contenido en el registro de instrucciones
+        
+
+        //NOP, LDW, SW, ADD, ADDI, AND, OR, NOT, LDI, BEQ, BGE, JMP, OUT, INVALID
+        byte opcode = (byte) (instruccion & 0b00111111);
+
+        switch (opcode) {
+            case 0:
+                System.out.println("La instruccion actual es NOP");
+                instActual = TipoInstruccion.NOP;
+                
                 break;
 
             case 1:
@@ -338,10 +444,12 @@ public class Procesador implements ObservadorReloj {
             default:
                 System.out.println("La instruccion actual es INVALIDA");
                 instActual = TipoInstruccion.INVALID;
-                break;
-
+                JOptionPane.showMessageDialog(null, "Instruccion invalida");
+                return false;
+                
+             
         }
-
+     return true;
     }
 
     public void ejecutarInstruccion() {
@@ -399,10 +507,11 @@ public class Procesador implements ObservadorReloj {
 
                 RAM.leerPalabradelBus();
 
-                /*
+                
                 for (int i = 0; i < 4; i++) {
                     System.out.println("Contenido Posición " + i + ": " + Integer.toBinaryString(RAM.cargarContDir(mar.getDireccionAct() + i)));
-                }*/
+                    System.out.println("Direccion MAR "+mar.getDireccionAct());
+                }
             }
 
             if (this.Pasos_reloj == 5) {

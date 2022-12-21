@@ -5,6 +5,7 @@
 package Logica;
 
 import java.util.ArrayList;
+import presentacion.vistas.VistaPanelControl;
 
 /**
  *
@@ -24,12 +25,37 @@ public class Bus {
         //Devuelve el dato que se encuentra en el bus
         //Si se vincula el Bus a la vista, podria activar una de las lineas de control dependiendo del id que lea del bus
         this.Reconocerlectores(id);
-        System.out.println(id+" Leyo del Bus");
+        if(id<29){
+        System.out.println("Registro "+id+" Leyo del Bus");
+        VistaPanelControl.getTxLogArea().append("Registro "+id+" Leyo del Bus"+"\n");
+        }
+        if(id==29){
+             VistaPanelControl.getTxLogArea().append("Registro de Instrucciones Leyo del Bus"+"\n");  
+        }
+         if(id==30){
+             VistaPanelControl.getTxLogArea().append("Registro MAR Leyo del Bus"+"\n");
+        }
+         if(id==31){
+             VistaPanelControl.getTxLogArea().append("Registro PC Leyo del Bus"+"\n");
+        }
         return this.Datoenelbus;
     }
     public void Escribirenelbus(int id,int dato){
         //Carga un dato en el Bus y avisa de que lo hizo
         //Si se vincula el Bus a la vista, podria activar una de las lineas de control dependiendo del id que escriba en el bus
+        if(id<29){
+        System.out.println("Registro "+id+" Escribio del Bus");
+        VistaPanelControl.getTxLogArea().append("Registro "+id+" Escribio en el Bus"+"\n");
+        }
+        if(id==29){
+             VistaPanelControl.getTxLogArea().append("Registro de Instrucciones Escribio en el Bus"+"\n");  
+        }
+         if(id==30){
+             VistaPanelControl.getTxLogArea().append("Registro MAR Escribio en el Bus"+"\n");
+        }
+         if(id==31){
+             VistaPanelControl.getTxLogArea().append("Registro PC Escribio en el Bus"+"\n");
+        }
         Reconoceralescritor(id);
         
         this.Datoenelbus=dato;

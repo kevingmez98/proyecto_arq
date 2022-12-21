@@ -4,6 +4,9 @@
  */
 package presentacion.controladores;
 
+import Logica.ObservadorReloj;
+import Logica.Procesador;
+import Logica.Reloj;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import presentacion.Modelo;
@@ -14,53 +17,62 @@ import presentacion.vistas.VistaWidgetRAM;
  *
  * @author Asus
  */
-public class ControladorWidgetRAM implements interfaces.IRAMObserver, ActionListener{
+public class ControladorWidgetRAM implements  ActionListener,ObservadorReloj{
 
     private final VistaWidgetRAM widgetRAM;
     private VistaPanelControl vista;
-    //private final SistemaSAP sistema;    
+    //private final SistemaSAP sistema; 
+    private Procesador procs;
     private final Modelo modelo;
 
-    public ControladorWidgetRAM(VistaWidgetRAM widgetRAM) {
+    public ControladorWidgetRAM(VistaWidgetRAM widgetRAM,Procesador procs) {
+        this.procs=procs;
         this.widgetRAM = widgetRAM;
         this.vista= this.widgetRAM.getVistaControl();
         //this.sistema = this.widgetRAM.getSistema();
         this.modelo = this.widgetRAM.getModelo();
+        Reloj.obtenerReloj().addObserver(this);
     }
 
     
-    @Override
-    public void cambiaValorRAM(int address) {
+ 
+    public void cambiaValorRAM() {
         // Iterar sobre todos los bits en la posición de memoria actual
-        for (int i = 0; i <= 31; i++) {
-<<<<<<< HEAD
-           //widgetRAM.getBtnArrayBotones()[address][i].setText("" + this.buscarEnRAM(address, 31 - i));
-=======
-            widgetRAM.getBtnArrayBotones()[address][i].setText("" + this.buscarEnRAM(address, 7 - i));
->>>>>>> origin/huwso1-banana
-
-            // Compruebar si es el valor MAR, en cuyo caso se necesita un color para resaltar
-            if (widgetRAM.isResaltarMAR() && address == widgetRAM.getValorMAR()) {
-                widgetRAM.getBtnArrayBotones()[address][i].setBackground(widgetRAM.COLOR_MAR);
-            } else {
-                widgetRAM.getBtnArrayBotones()[address][i].setBackground(widgetRAM.getBtnArrayBotones()[address][i].getText().equals("1") ? widgetRAM.COLOR_ON : widgetRAM.COLOR_OFF);
+        for(int j=0;j< widgetRAM.getBtnArrayBotones().length;j++){
+        for (int i = 0; i < 31; i++) {
+            if(j<29){
+            widgetRAM.getBtnArrayBotones()[j][i].setText("" + this.buscarEnRAM(this.procs.getBanco_de_registros()[j].getValor(), 31 - i));
+            }else{
+                if(j==29){
+                    
+                widgetRAM.getBtnArrayBotones()[j][i].setText(""+this.buscarEnRAM(this.procs.getIr().getValor(),31-i));
+                System.out.print(this.buscarEnRAM(this.procs.getIr().getValor(),31-i));
+                }
+                if(j==30){
+                    widgetRAM.getBtnArrayBotones()[j][i].setText(""+this.buscarEnRAM(this.procs.getMar().getValor(),31-i));
+                }
+                if(j==31){
+                    widgetRAM.getBtnArrayBotones()[j][i].setText(""+this.buscarEnRAM(this.procs.getPc().getValor(),31-i));
+                }
             }
-
-            // Si estamos en la posición más a la derecha, mantenga el borde
-            if (i == 32) {
-                widgetRAM.getBtnArrayBotones()[address][i].setBorder(widgetRAM.RIGHT_BORDER);
+            // Si estmos en la posición más a la derecha, mantenga el borde
+            
+            if (i == 31) {
+                widgetRAM.getBtnArrayBotones()[j][i].setBorder(widgetRAM.RIGHT_BORDER);
             } else {
-                widgetRAM.getBtnArrayBotones()[address][i].setBorder(null);
+                widgetRAM.getBtnArrayBotones()[j][i].setBorder(null);
             }
 
             // Si estamos en la fila inferior, mantener el borde.
-            if (address == 32) {
-                if (i == 32) {
-                    widgetRAM.getBtnArrayBotones()[address][i].setBorder(widgetRAM.BOTTOM_RIGHT_BORDER);
+            if (j == 31) {
+                if (i == 31) {
+                    widgetRAM.getBtnArrayBotones()[j][i].setBorder(widgetRAM.BOTTOM_RIGHT_BORDER);
                 } else {
-                    widgetRAM.getBtnArrayBotones()[address][i].setBorder(widgetRAM.BOTTOM_BORDER);
+                    widgetRAM.getBtnArrayBotones()[j][i].setBorder(widgetRAM.BOTTOM_BORDER);
                 }
             }
+        
+        }
         }
     }
 
@@ -75,7 +87,7 @@ public class ControladorWidgetRAM implements interfaces.IRAMObserver, ActionList
             widgetRAM.getBtnResaltarMAR().setText(widgetRAM.isResaltarMAR() ? widgetRAM.MAR_ON_LABEL : widgetRAM.MAR_OFF_LABEL);
 
             // Actualizar visualización
-            this.cambioMAR(widgetRAM.getValorMAR());
+            
 
             return;
     }
@@ -99,17 +111,17 @@ public class ControladorWidgetRAM implements interfaces.IRAMObserver, ActionList
             // Obtener el contenido de la memoria
            // byte[] arr = this.sistema.getRAM().getData();
 
-            for (int i = 0; i < 32; i++) {
+            for (int i = 0; i < 16; i++) {
                 // Colocamos cada posición en 0
              //   arr[i] = 0;
             }
 
             // Obligar a la pantalla a volver a pintar dos veces, para manejar el retraso visual
-            for (int i = 0; i < 32; i++) {
-                this.cambiaValorRAM(i);
+            for (int i = 0; i < 16; i++) {
+                this.cambiaValorRAM();
             }
-            for (int i = 0; i < 32; i++) {
-                this.cambiaValorRAM(i);
+            for (int i = 0; i < 16; i++) {
+                this.cambiaValorRAM();
             }
             return;
         }
@@ -161,32 +173,21 @@ public class ControladorWidgetRAM implements interfaces.IRAMObserver, ActionList
 //        logica.EventLog.getEventLog().addEntrada("Dirección de memoria " + address + " cambió a " + newVal);
     }
     
-     public void cambioMAR(byte v) {
-        // Si no estamos en modo resaltado
-        if (!widgetRAM.isResaltarMAR()) {
-            cambiaValorRAM(v);
-            return;
-        }
-
-        // Coge el antiguo valor MAR
-        int oldVal = widgetRAM.getValorMAR();
-
-        // Pintar el nuevo valor con el color correcto
-        widgetRAM.setValorMAR(v);
-        cambiaValorRAM(widgetRAM.getValorMAR());
-
-        // Elimina la coloración especial del antiguo valor MAR
-        cambiaValorRAM(oldVal);
-    }
+  
      
   // Función auxiliar para acceder a bits individuales en la memoria; Address: [0, 15]
     // bitPos: [0, 7]
     public int buscarEnRAM(int valor, int bitPos) {
-        int val = 0b11111111 & valor;
+        int val = 0b11111111111111111111111111111111 & valor;
         return (val >> bitPos) & 0b1;
         
         //Para  que el programa no explote por falta de return
        
+    }
+
+    @Override
+    public void cambioReloj() {
+        cambiaValorRAM();
     }
     
 }

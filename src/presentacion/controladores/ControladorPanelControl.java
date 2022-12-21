@@ -4,6 +4,8 @@
  */
 package presentacion.controladores;
 
+import Logica.HiloReloj;
+import Logica.Reloj;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
@@ -29,11 +31,14 @@ public class ControladorPanelControl implements ActionListener, ChangeListener {
          
         if (e.getActionCommand().equals("ejecutar")) {
             System.out.println("Ejecutar");
+            HiloReloj hilo=new HiloReloj(900);
+            hilo.run();
         }
         
         //Btn un paso
         if (e.getActionCommand().equals("clockButton")) {
             System.out.println("btn un paso");
+            Reloj.obtenerReloj().cambiarReloj();
         }
     }
 

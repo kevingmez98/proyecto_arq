@@ -4,6 +4,8 @@
  */
 package presentacion.vistas;
 
+
+import Logica.Procesador;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -45,6 +47,8 @@ public class VistaWidgetRAM extends JPanel{
     private Modelo modelo;
     
     private Byte valorMAR;
+
+    private Procesador procs;
     
     private boolean resaltarMAR;
             
@@ -63,9 +67,10 @@ public class VistaWidgetRAM extends JPanel{
     public static final String MAR_ON_LABEL = "[ON] Mostrar MAR en RAM";
     public static final String MAR_OFF_LABEL = "[OFF] Mostrar MAR en RAM";
     
-     public VistaWidgetRAM(Modelo m, JPanel parentPanel){
+     public VistaWidgetRAM(Modelo m, JPanel parentPanel, Procesador procs){
+        this.procs = procs;
         this.modelo = m;
-        
+        getControlador();
         //Sistema SAP del modelo
         //this.sistema = modelo.getSistema();
 
@@ -92,7 +97,7 @@ public class VistaWidgetRAM extends JPanel{
         mostrarBtnOP();
         mostrarBtnResaltarMAR();
         mostrarContenidoRAM();
-        getControlador().cambioMAR(this.valorMAR);
+        
         
         agregarEtiquetasRegistros();
         repaint();
@@ -150,7 +155,6 @@ public class VistaWidgetRAM extends JPanel{
         this.btnResaltarMAR = new JButton(this.resaltarMAR ? MAR_ON_LABEL : MAR_OFF_LABEL);
         this.btnResaltarMAR.setActionCommand("toggleMAR");
         this.btnResaltarMAR.addActionListener(getControlador());
-        this.add(this.btnResaltarMAR, gridConstraint);
      }
      
      public void agregarEtiquetasRegistros(){
@@ -283,7 +287,7 @@ public class VistaWidgetRAM extends JPanel{
 
     public ControladorWidgetRAM getControlador() {
         if(controlador==null){
-            controlador= new ControladorWidgetRAM(this);
+            controlador= new ControladorWidgetRAM(this,this.procs);
         }
         return controlador;
     }
