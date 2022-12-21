@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -44,13 +43,8 @@ public class VistaModReg extends JPanel {
     private GridBagConstraints grid;
 
     private ControladorModReg controlador;
-<<<<<<< HEAD
-       
-    public VistaModReg(){
-=======
 
     public VistaModReg() {
->>>>>>> origin/huwso1-banana
         this.setLayout(new GridBagLayout());
         grid = new GridBagConstraints();
         grid.fill = GridBagConstraints.VERTICAL;
@@ -58,12 +52,7 @@ public class VistaModReg extends JPanel {
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         generarFormInstruccion();
         generarFormComprobacion();
-<<<<<<< HEAD
-        
-         
-=======
 
->>>>>>> origin/huwso1-banana
     }
 
     public VistaModReg(ControladorModReg banana) {
@@ -82,20 +71,6 @@ public class VistaModReg extends JPanel {
     public void generarFormComprobacion() {
         grid.gridx = 2;
         grid.gridy = 0;
-<<<<<<< HEAD
-        JLabel lbl= new JLabel("Verificar valor en posicion");
-        this.add(lbl,grid);
-            
-        grid.gridx=2;
-        grid.gridy=1;
-        txtPosicion= new JTextField("Posicion");
-        txtPosicion.setMinimumSize(new Dimension(200,20));
-        this.add(txtPosicion,grid);
-        
-        grid.gridx=2;
-        grid.gridy=3;
-        btnVerificarValorPos= new JButton("Comprobar valor");
-=======
         JLabel lbl = new JLabel("Verificar valor en posicion");
         this.add(lbl, grid);
 
@@ -108,7 +83,6 @@ public class VistaModReg extends JPanel {
         grid.gridx = 2;
         grid.gridy = 3;
         btnVerificarValorPos = new JButton("Comprobar valor");
->>>>>>> origin/huwso1-banana
         btnVerificarValorPos.setActionCommand("compValorPos");
         btnVerificarValorPos.addActionListener(controlador);
         this.add(btnVerificarValorPos, grid);
@@ -167,14 +141,5 @@ public class VistaModReg extends JPanel {
     public ControladorModReg getControlador() {
         return controlador;
     }
-<<<<<<< HEAD
-    
-    
-    
-    
-    
-    
-=======
 
->>>>>>> origin/huwso1-banana
 }

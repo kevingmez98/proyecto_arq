@@ -2,7 +2,6 @@
 package presentacion;
 
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import javax.swing.JFrame;
 import presentacion.vistas.VistaPanelControl;
 
@@ -32,11 +31,10 @@ public class Modelo {
        if(ventanaPrincipal == null){              
             ventanaPrincipal = new JFrame();
             ventanaPrincipal.setTitle("Simulador");
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             ventanaPrincipal.setContentPane(getPanelPrincipal());
-            ventanaPrincipal.setPreferredSize(screenSize);
-            ventanaPrincipal.setResizable(false);
+            ventanaPrincipal.setPreferredSize(new Dimension(1200, 750));
+            ventanaPrincipal.setResizable(true);
         }
         return ventanaPrincipal;
     }

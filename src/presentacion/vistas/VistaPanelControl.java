@@ -33,6 +33,8 @@ public class VistaPanelControl extends JPanel{
       private VistaWidgetRAM vistaRAM;
       
       private VistaWidgetSAP vistaSAP;
+
+      private VistaDisplaySieteSeg display7Seg;
       
       private VistaModReg vistaModRegistros;
       
@@ -72,9 +74,11 @@ public class VistaPanelControl extends JPanel{
         agregarSliderVelocidad();
 
          //Espacio para mostrar los registros
+       
+         agregarRegistros();
+         asignarSieteSeg();
         agregarFormulariosMod();
-        agregarRegistros();
-        
+       
         
         //Campos para modificar las instrucciones
       
@@ -113,8 +117,9 @@ public class VistaPanelControl extends JPanel{
       }
       
       public void agregarVistaSAP(){
+          this.display7Seg = new VistaDisplaySieteSeg((byte)11111);
           this.vistaRAM = new VistaWidgetRAM(modelo, this);
-          this.vistaSAP= new VistaWidgetSAP(modelo, this.vistaRAM);
+          this.vistaSAP= new VistaWidgetSAP(modelo, this.vistaRAM, display7Seg);
           gridConstraints.gridx = 1;
           gridConstraints.gridy = 0;
           gridConstraints.gridheight = 8;
@@ -178,6 +183,18 @@ public class VistaPanelControl extends JPanel{
         sv.setPreferredSize(new Dimension(20, 100));
         sv.setMaximumSize(new Dimension(20, 100));
         this.add(sv, gridConstraints);
+      }
+      
+      public void asignarSieteSeg(){
+        //Agregar vista siete segmentos tomando el valor del registro del sistema
+        //this.display7Seg = new VistaDisplaySieteSeg(this.sistema.getRegistroSalida().getValor());
+        gridConstraints.ipadx = 0;
+        gridConstraints.ipady =0;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 8;
+        this.display7Seg = new VistaDisplaySieteSeg((byte)11111);
+
+        this.add(this.display7Seg, gridConstraints);
       }
       
       public void agregarFormulariosMod(){
